@@ -13,6 +13,12 @@ public class MysteryBlock : Platform
     [SerializeField]
     Sprite hitSprite;
 
+    [SerializeField]
+    PowerUp powerUp;
+
+    [SerializeField]
+    Vector3 spawnOffset;
+
     private void Awake() {
 
         renderer = GetComponentInChildren<SpriteRenderer>();
@@ -34,11 +40,8 @@ public class MysteryBlock : Platform
 
         if (animator != null) {
 
-            if (renderer.sprite == defaultSprite) {
-                renderer.sprite = hitSprite;
-            }
-
             StartCoroutine(PlayAnimation());
+
         }
     }
 
@@ -46,11 +49,22 @@ public class MysteryBlock : Platform
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Block_Hit")) {
 
-            animator.SetBool("isHit", true);
-
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
 
-            yield return new WaitForSeconds(animationTime / 5);
+            animator.SetBool("isHit", true);
+
+            if (renderer.sprite == defaultSprite) {
+                renderer.sprite = hitSprite;
+
+                if (powerUp != null) {
+
+                    yield return new WaitForSeconds(animationTime / 2);
+
+                    Instantiate(powerUp, transform.position, Quaternion.identity);
+                }
+            }
+
+            yield return new WaitForSeconds(animationTime / 5 * 2);
 
             animator.SetBool("isHit", false);
 
