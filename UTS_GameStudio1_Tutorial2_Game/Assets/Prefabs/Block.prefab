@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4871074686670953306}
   - component: {fileID: 2892249849614453128}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,6 +126,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8073713282016766688}
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   platformType: 0
 --- !u!95 &8073713282016766688
 Animator:
