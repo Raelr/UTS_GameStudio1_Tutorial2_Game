@@ -32,7 +32,6 @@ public class SolidPlatform : Platform {
 
             yield return new WaitForSeconds(animationTime/5);
 
-            Debug.Log("setting to false");
             animator.SetBool("isHit", false);
 
         } else {
