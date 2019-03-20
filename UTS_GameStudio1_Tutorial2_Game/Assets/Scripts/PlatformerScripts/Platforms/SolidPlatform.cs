@@ -13,4 +13,30 @@ public class SolidPlatform : Platform {
         
         return platformType == PlatformType.Solid ? false : true;
     }
+
+    public override void OnPlayerHit(bool destroy) {
+
+        if (animator != null) {
+
+            StartCoroutine(PlayAnimation());
+        }
+    }
+
+    IEnumerator PlayAnimation() {
+
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Block_Hit")) {
+
+            animator.SetBool("isHit", true);
+
+            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
+
+            yield return new WaitForSeconds(animationTime/5);
+
+            animator.SetBool("isHit", false);
+
+        } else {
+
+            yield return null;
+        }
+    }
 }

@@ -280,6 +280,10 @@ public class Controller2D : RayCastUser {
                     // Update the collision information struct to indicate that a collision has occurred.
                     collisionInformation.isBelow = directionY == -1;
                     collisionInformation.isAbove = directionY == 1;
+
+                    if (collisionInformation.isAbove) {
+                        currentPlatform.OnPlayerHit();
+                    }
                 }
             } else {
                 currentPlatform = null;

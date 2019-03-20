@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Controller2D.cs" />
+    <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\MysteryBlock.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\OneWayPlatform.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\Platform.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\SolidPlatform.cs" />
