@@ -48,7 +48,7 @@ public class CameraFollow : MonoBehaviour {
 
         if (!Utilities.VectorEquals(cameraFocus.position, oldPosition)) {
 
-            Vector3 cameraPosition = cameraFocus.position + cameraOffset;
+            Vector3 cameraPosition = new Vector3(cameraFocus.position.x, 0, 0) + cameraOffset;
 
             Vector3 smoothMove = Vector3.SmoothDamp(transform.position, cameraPosition, ref moveVelocity, smoothCameraTiming * Time.deltaTime);
 

@@ -6,6 +6,9 @@ public abstract class Platform : MonoBehaviour {
 
     public bool CanJumpThrough { get; set; }
 
+    [SerializeField]
+    protected Animator animator;
+
     protected enum PlatformType {
 
         Solid,
@@ -18,4 +21,6 @@ public abstract class Platform : MonoBehaviour {
     public abstract bool AllowedToJumpThrough(float direction, bool isCheckingDirection = false);
 
     public abstract bool CanFallThrough();
+
+    public abstract void OnPlayerHit(bool destroy = false);
 }
