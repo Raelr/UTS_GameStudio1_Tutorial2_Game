@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Platform : MonoBehaviour {
 
+    SpriteRenderer renderer;
+
     public bool CanJumpThrough { get; set; }
 
     [SerializeField]
@@ -17,6 +19,13 @@ public abstract class Platform : MonoBehaviour {
 
     [SerializeField]
     protected PlatformType platformType;
+
+    private void Start() {
+
+        renderer = GetComponent<SpriteRenderer>();
+
+
+    }
 
     public abstract bool AllowedToJumpThrough(float direction, bool isCheckingDirection = false);
 
