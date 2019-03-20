@@ -27,6 +27,8 @@ public class Controller2D : RayCastUser {
 
     public bool IsCrouching { get; set; }
 
+    public CollisionInformation Collisions { get { return collisionInformation; } }
+
     [Header("Collision Mask")]
     [SerializeField]
     LayerMask layerMask;
@@ -198,9 +200,11 @@ public class Controller2D : RayCastUser {
 
             if (hit) {
 
+                CheckForPowerUp(hit);
+
                 CheckCurrentCollider(hit);
 
-                if (currentPlatform.AllowedToJumpThrough(directionX) || hit.distance == 0) {
+                if (hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(directionX) || hit.distance == 0) {
                     continue;
 
                 } else {
@@ -262,9 +266,11 @@ public class Controller2D : RayCastUser {
 
             if (hit) {
 
+                CheckForPowerUp(hit);
+
                 CheckCurrentCollider(hit);
 
-                if (currentPlatform.AllowedToJumpThrough(directionY, true) || IsCrouching && currentPlatform.CanFallThrough() || hit.distance == 0) {
+                if (hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(directionY, true) || IsCrouching && currentPlatform.CanFallThrough() || hit.distance == 0) {
 
                         continue;
 
@@ -315,12 +321,22 @@ public class Controller2D : RayCastUser {
         }
     }
 
+    void CheckForPowerUp(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "PowerUp") {
+
+            PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
+            powerUp.OnPickup();
+        }
+    }
+
     void CheckCurrentCollider(RaycastHit2D hit) {
 
         if (hit.collider != currentPlatformCollider) {
 
             currentPlatformCollider = hit.collider;
-            currentPlatform = hit.transform.GetComponent<Platform>();
+            Platform platform = hit.transform.GetComponent<Platform>();
+            currentPlatform = platform == null ? null : platform;
         }
     }
 
