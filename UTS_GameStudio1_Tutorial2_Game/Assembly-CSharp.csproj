@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\PlatformerScripts\Enemies\Enemy.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Enemies\Goomba.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Enemies\Goomba_Corpse.cs" />
+    <Compile Include="Assets\Scripts\PlatformerScripts\FallTrigger.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\ItemSpawn.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\MysteryBlock.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\OneWayPlatform.cs" />
