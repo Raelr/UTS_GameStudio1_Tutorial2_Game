@@ -353,7 +353,7 @@ public class Controller2D : RayCastUser {
 
     void CheckForEnemyHit(RaycastHit2D hit) {
 
-        if (hit.transform.tag == "VulnerablePoint" && currentPlatformCollider != hit.collider) {
+        if (hit.transform.tag == "VulnerablePoint") {
 
             Debug.Log("VulnerablePoint");
 
