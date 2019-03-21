@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour {
 
@@ -14,6 +15,9 @@ public class Player : MonoBehaviour {
     public delegate void PlayerMovedHandler();
 
     public event PlayerMovedHandler playerMoved;
+
+    //status store the stage of powerup, 1 is normal, 2 is mashroomed, 3 is fire mode, 4 is invincible.
+    private int status = 1; 
 
     void Start() {
 
@@ -85,5 +89,22 @@ public class Player : MonoBehaviour {
 
     bool IsStill() {
         return input.x == 0 && input.y == 0;
+    }
+
+    public void GetPowerUp(PowerUp.Abilities ability){
+        switch(ability){
+            case PowerUp.Abilities.Mashroom:
+                transform.localScale *= 2;
+                status = 2;
+                break;
+            case PowerUp.Abilities.Fire:
+                status = 3;
+                break;
+            case PowerUp.Abilities.Invincible:
+                status = 4;
+                break;
+            default:
+                break;
+        }
     }
 }

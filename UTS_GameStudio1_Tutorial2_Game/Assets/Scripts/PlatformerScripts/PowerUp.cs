@@ -9,6 +9,9 @@ public abstract class PowerUp : MonoBehaviour
 
     protected bool isInitialising;
 
+    public enum Abilities {Mashroom, Fire, Invincible}
+    protected Abilities ability;
+
     void Start()
     {
         
@@ -26,24 +29,24 @@ public abstract class PowerUp : MonoBehaviour
 
     IEnumerator PlayAnimation() {
 
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MushroomRisingAnimation")) {
+        //if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MushroomRisingAnimation")) {
 
-            isInitialising = true;
+        //    isInitialising = true;
 
-            animator.SetBool("Instantiated", true);
+        //    animator.SetBool("Instantiated", true);
 
-            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
+        //    float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
 
-            yield return new WaitForSeconds(animationTime);
+        //    yield return new WaitForSeconds(animationTime);
 
-            isInitialising = false;
+        //    isInitialising = false;
 
-            animator.SetBool("Instantiated", false);
+        //    animator.SetBool("Instantiated", false);
 
-        } else {
+        //} else {
 
             yield return null;
-        }
+        //}
     }
 
     public void OnPickup() {
@@ -51,5 +54,9 @@ public abstract class PowerUp : MonoBehaviour
         Debug.Log("Picked Up!");
         Destroy(this.gameObject);
 
+    }
+
+    public Abilities GetAbility(){
+        return ability;
     }
 }

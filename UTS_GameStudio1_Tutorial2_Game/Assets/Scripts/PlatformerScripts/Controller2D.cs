@@ -73,6 +73,9 @@ public class Controller2D : RayCastUser {
 
     Platform currentPlatform;
 
+    // Delegate for powerup;
+    public event Action OnPowerPickUp;
+
     /// <summary>
     /// Set jump velocity and gravity base don the jump height and timeToJumpApex variables. 
     /// </summary>
@@ -109,6 +112,11 @@ public class Controller2D : RayCastUser {
             VerticalCollisions(ref input);
 
         }
+
+        //to be delete
+        Debug.Log("pos "+transform.position);
+        Debug.Log("input "+input);
+        //to be delete
 
         // Move the player.
         transform.Translate(input);
@@ -327,6 +335,11 @@ public class Controller2D : RayCastUser {
 
             PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
             powerUp.OnPickup();
+
+            if (transform.tag.Equals("Player")){
+                Player player = transform.GetComponent<Player>();
+                player.GetPowerUp(powerUp.GetAbility());
+            }
         }
     }
 
