@@ -1,0 +1,45 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Goomba : Enemy
+{
+    [SerializeField]
+    Sprite deathSprite;
+
+    [SerializeField]
+    Goomba_Corpse corpse;
+
+    [SerializeField]
+    Vector3 corpseOffset;
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        Init();
+        direction = -Vector3.right;
+        isAlive = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (isAlive) {
+
+            if (canMove) {
+                Move();
+            }
+        }
+    }
+
+    public override void OnPlayerStomp() {
+
+        isAlive = false;
+
+        Vector3 spawnPosition = transform.position + corpseOffset;
+
+        Instantiate(corpse, spawnPosition, Quaternion.identity);
+
+        Destroy(this.gameObject);
+    }
+}

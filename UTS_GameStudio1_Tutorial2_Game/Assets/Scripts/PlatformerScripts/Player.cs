@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    public bool IsAlive { get { return isAlive; } set { isAlive = value; } }
+
     [Header("Player Controller")]
     [SerializeField]
     Controller2D controller;
 
     Vector3 input;
+
+    [SerializeField]
+    Animator animator;
+
+    bool isAlive;
 
     // Delegate for anything which needs to know whether the player is moving
     public delegate void PlayerMovedHandler();
@@ -17,12 +24,18 @@ public class Player : MonoBehaviour {
 
     void Start() {
 
+        isAlive = true;
+
         controller = GetComponent<Controller2D>();
+
+        animator = GetComponent<Animator>();
     }
 
     void Update() {
 
-        MoveByInput();
+        if (isAlive) {
+            MoveByInput();
+        }
     }
 
     /// <summary>
@@ -85,5 +98,11 @@ public class Player : MonoBehaviour {
 
     bool IsStill() {
         return input.x == 0 && input.y == 0;
+    }
+
+    public void OnDeath() {
+
+        isAlive = false;
+        animator.SetBool("Alive", false);
     }
 }
