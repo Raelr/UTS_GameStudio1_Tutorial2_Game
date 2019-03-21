@@ -22,13 +22,13 @@ public class RayCastUser : MonoBehaviour {
 
     [Header("Box Collider")]
     [SerializeField]
-    protected BoxCollider2D boxCollider;
+    protected Collider2D boxCollider;
 
     protected RayCastOrgins rayCastOrigins;
 
     public virtual void Start() {
 
-        boxCollider = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<Collider2D>();
         CalculateRaySpacing();
     }
     
