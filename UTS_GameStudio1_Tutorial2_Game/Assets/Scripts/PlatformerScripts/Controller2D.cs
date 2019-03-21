@@ -202,39 +202,46 @@ public class Controller2D : RayCastUser {
 
             if (hit) {
 
+                CheckForTrigger(hit);
+
                 CheckForPowerUp(hit);
 
                 CheckCurrentCollider(hit);
 
-                if (hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(directionX) || hit.distance == 0) {
-                    continue;
+                if (currentPlatform != null) {
 
-                } else {
-                    float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                    if (hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(directionX) || (hit.distance == 0 && hit.transform.tag != "Enemy") || hit.transform.tag == "Trigger") {
+                        continue;
 
-                    if (i == 0 && slopeAngle <= maxClimbAngle) {
-                        float distanceToStart = 0;
+                    } else {
+                        float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
-                        if (slopeAngle != collisionInformation.slopeAngleOld) {
-                            distanceToStart = hit.distance - skinWidth;
-                            //inputVelocity.x -= distanceToStart - directionX;
-                        }
-                        ClimbSlope(ref inputVelocity, slopeAngle);
-                        inputVelocity.x += distanceToStart * directionX;
-                    }
+                        if (i == 0 && slopeAngle <= maxClimbAngle) {
+                            float distanceToStart = 0;
 
-                    if (!collisionInformation.isClimbingSlope || slopeAngle > maxClimbAngle) {
-                        // Reduce velocity vector based on its distance from the obstacle collided with. 
-                        inputVelocity.x = (hit.distance - skinWidth) * directionX;
-                        rayLength = hit.distance;
-
-                        if (collisionInformation.isClimbingSlope) {
-                            inputVelocity.y = Mathf.Tan(collisionInformation.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(inputVelocity.x);
+                            if (slopeAngle != collisionInformation.slopeAngleOld) {
+                                distanceToStart = hit.distance - skinWidth;
+                                //inputVelocity.x -= distanceToStart - directionX;
+                            }
+                            ClimbSlope(ref inputVelocity, slopeAngle);
+                            inputVelocity.x += distanceToStart * directionX;
                         }
 
-                        // Update the collision information struct to indicate that a collision has occurred.
-                        collisionInformation.isLeft = directionX == -1;
-                        collisionInformation.isRight = directionX == 1;
+                        if (!collisionInformation.isClimbingSlope || slopeAngle > maxClimbAngle) {
+                            // Reduce velocity vector based on its distance from the obstacle collided with. 
+                            inputVelocity.x = (hit.distance - skinWidth) * directionX;
+                            rayLength = hit.distance;
+
+                            if (collisionInformation.isClimbingSlope) {
+                                inputVelocity.y = Mathf.Tan(collisionInformation.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(inputVelocity.x);
+                            }
+
+                            // Update the collision information struct to indicate that a collision has occurred.
+                            collisionInformation.isLeft = directionX == -1;
+                            collisionInformation.isRight = directionX == 1;
+
+                            CheckForEnemyHit(hit);
+                        }
                     }
                 }
             }
@@ -268,31 +275,38 @@ public class Controller2D : RayCastUser {
 
             if (hit) {
 
+                CheckForTrigger(hit);
+
                 CheckForPowerUp(hit);
 
                 CheckCurrentCollider(hit);
 
-                if (hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(directionY, true) || IsCrouching && currentPlatform.CanFallThrough() || hit.distance == 0) {
+                if (currentPlatform != null) {
+
+                    if (hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(directionY, true) || IsCrouching && currentPlatform.CanFallThrough() || (hit.distance == 0 && hit.transform.tag != "Enemy") || hit.transform.tag == "Trigger") {
 
                         continue;
 
-                } else {
-                    // Reduce velocity vector based on its distance from the obstacle collided with. 
-                    velocity.y = (hit.distance - skinWidth) * directionY;
-                    rayLength = hit.distance;
+                    } else {
+                        // Reduce velocity vector based on its distance from the obstacle collided with. 
+                        velocity.y = (hit.distance - skinWidth) * directionY;
+                        rayLength = hit.distance;
 
-                    if (collisionInformation.isClimbingSlope) {
-                        velocity.x = velocity.y / Mathf.Tan(collisionInformation.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
-                    }
+                        if (collisionInformation.isClimbingSlope) {
+                            velocity.x = velocity.y / Mathf.Tan(collisionInformation.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
+                        }
 
-                    // Update the collision information struct to indicate that a collision has occurred.
-                    collisionInformation.isBelow = directionY == -1;
-                    collisionInformation.isAbove = directionY == 1;
+                        // Update the collision information struct to indicate that a collision has occurred.
+                        collisionInformation.isBelow = directionY == -1;
+                        collisionInformation.isAbove = directionY == 1;
 
-                    if (collisionInformation.isAbove) {
-                        currentPlatform.OnPlayerHit();
+                        if (collisionInformation.isAbove) {
+                            currentPlatform.OnPlayerHit();
+                        }
                     }
                 }
+
+                CheckForEnemyHit(hit);
             } else {
                 currentPlatform = null;
                 currentPlatformCollider = null;
@@ -337,9 +351,43 @@ public class Controller2D : RayCastUser {
         }
     }
 
+    void CheckForEnemyHit(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "VulnerablePoint" && currentPlatformCollider != hit.collider) {
+
+            Debug.Log("VulnerablePoint");
+
+            Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
+
+            enemy.OnPlayerStomp();
+
+            velocity.y = jumpVelocity / 2;
+
+        } else if (hit.transform.tag == "Enemy") {
+
+            Debug.Log("Enemy");
+
+            LevelManager.instance.OnPlayerKilled();
+        }
+
+        currentPlatformCollider = hit.collider;
+    }
+
+    void CheckForTrigger(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider) {
+
+            Trigger trigger = hit.transform.GetComponent<Trigger>();
+
+            trigger.OnPlayerEnter();
+
+            currentPlatformCollider = hit.collider;
+        }
+    }
+
     void CheckCurrentCollider(RaycastHit2D hit) {
 
-        if (hit.collider != currentPlatformCollider) {
+        if (hit.transform.tag == "Platform" && hit.collider != currentPlatformCollider) {
 
             currentPlatformCollider = hit.collider;
             Platform platform = hit.transform.GetComponent<Platform>();
@@ -352,6 +400,7 @@ public class Controller2D : RayCastUser {
     /// </summary>
 
     public struct CollisionInformation {
+
         public bool isBelow, isAbove;
         public bool isRight, isLeft;
 
