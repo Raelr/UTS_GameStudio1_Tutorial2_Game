@@ -77,7 +77,7 @@ public class Controller2D : RayCastUser {
     public event Action OnPowerPickUp;
 
     /// <summary>
-    /// Set jump velocity and gravity base don the jump height and timeToJumpApex variables. 
+    /// Set jump velocity and gravity base don the jump height and timeToJumpApex variables.
     /// </summary>
 
     public override void Start() {
@@ -96,7 +96,7 @@ public class Controller2D : RayCastUser {
 
     public void Move(Vector3 input) {
 
-        // Sets the positions where the raycasts will shoot from. Can account for changes in sprite and collider size. 
+        // Sets the positions where the raycasts will shoot from. Can account for changes in sprite and collider size.
         UpdateRayCastOrigins();
 
         collisionInformation.Reset();
@@ -127,7 +127,7 @@ public class Controller2D : RayCastUser {
         // Get the velocity we need.
         float targetVelocityX = input.x * MoveSpeed;
 
-        // Value set for smoothing the movement. 
+        // Value set for smoothing the movement.
         float xSmoothing = VelocityXSmoothing;
 
         // Damp the horizontal movement.
@@ -178,7 +178,7 @@ public class Controller2D : RayCastUser {
     }
 
     /// <summary>
-    /// Determines if a collision has occurred on the horizontal axes. Adjusts the velocity vector's appropriate axis if 
+    /// Determines if a collision has occurred on the horizontal axes. Adjusts the velocity vector's appropriate axis if
     /// it it's distance between itself and the object is zero (or close to).
     /// </summary>
 
@@ -228,7 +228,7 @@ public class Controller2D : RayCastUser {
                         }
 
                         if (!collisionInformation.isClimbingSlope || slopeAngle > maxClimbAngle) {
-                            // Reduce velocity vector based on its distance from the obstacle collided with. 
+                            // Reduce velocity vector based on its distance from the obstacle collided with.
                             inputVelocity.x = (hit.distance - skinWidth) * directionX;
                             rayLength = hit.distance;
 
@@ -251,7 +251,7 @@ public class Controller2D : RayCastUser {
     }
 
     /// <summary>
-    /// Determines if a collision has occurred on the vertical axes. Adjusts the velocity vector's appropriate axis if 
+    /// Determines if a collision has occurred on the vertical axes. Adjusts the velocity vector's appropriate axis if
     /// it it's distance between itself and the object is zero (or close to).
     /// </summary>
 
@@ -288,7 +288,7 @@ public class Controller2D : RayCastUser {
                         continue;
 
                     } else {
-                        // Reduce velocity vector based on its distance from the obstacle collided with. 
+                        // Reduce velocity vector based on its distance from the obstacle collided with.
                         velocity.y = (hit.distance - skinWidth) * directionY;
                         rayLength = hit.distance;
 
@@ -385,6 +385,51 @@ public class Controller2D : RayCastUser {
         }
     }
 
+    void CheckForEnemyHit(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "VulnerablePoint") {
+
+            Debug.Log("VulnerablePoint");
+
+            Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
+
+            enemy.OnPlayerStomp();
+
+            velocity.y = jumpVelocity / 2;
+
+        } else if (hit.transform.tag == "Enemy") {
+
+            Debug.Log("Enemy");
+
+            LevelManager.instance.OnPlayerKilled();
+        }
+
+        currentPlatformCollider = hit.collider;
+    }
+
+    void CheckForTrigger(RaycastHit2D hit) {
+
+
+        if (hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider && transform.tag == "Player") {
+
+            Trigger trigger = hit.transform.GetComponent<Trigger>();
+
+            trigger.OnPlayerEnter();
+
+            currentPlatformCollider = hit.collider;
+
+        } else if (hit.transform.tag == "FallPoint" && currentPlatformCollider != hit.collider) {
+
+            FallTrigger fallTrigger = hit.transform.GetComponent<FallTrigger>();
+
+            fallTrigger.OnTrigger(this);
+
+            currentPlatformCollider = hit.collider;
+        }
+
+
+    }
+
     void CheckCurrentCollider(RaycastHit2D hit) {
 
         if (hit.transform.tag == "Platform" && hit.collider != currentPlatformCollider) {
@@ -396,7 +441,7 @@ public class Controller2D : RayCastUser {
     }
 
     /// <summary>
-    /// Data structure determining which directions a collision is occuring in. 
+    /// Data structure determining which directions a collision is occuring in.
     /// </summary>
 
     public struct CollisionInformation {
@@ -419,7 +464,3 @@ public class Controller2D : RayCastUser {
         }
     }
 }
-
-
-
-
