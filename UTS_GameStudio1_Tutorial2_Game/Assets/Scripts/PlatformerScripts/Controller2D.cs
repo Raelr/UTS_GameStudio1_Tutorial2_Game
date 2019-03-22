@@ -373,11 +373,19 @@ public class Controller2D : RayCastUser {
 
     void CheckForTrigger(RaycastHit2D hit) {
 
-        if (hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider) {
+        if (transform.tag == "Player" && hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider) {
 
             Trigger trigger = hit.transform.GetComponent<Trigger>();
 
             trigger.OnPlayerEnter();
+
+            currentPlatformCollider = hit.collider;
+
+        } else if (hit.transform.tag == "FallPoint" && currentPlatformCollider != hit.collider) {
+
+            FallTrigger trigger = hit.transform.GetComponent<FallTrigger>();
+
+            trigger.OnTrigger(this);
 
             currentPlatformCollider = hit.collider;
         }
