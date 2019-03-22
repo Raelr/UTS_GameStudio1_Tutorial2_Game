@@ -6,9 +6,18 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
+
     [Header("Player reference")]
     [SerializeField]
     Player player;
+
+    public int Lives { get; set; }
+
+    private void Start()
+    {
+        //TO:DO - Add Black screen showing Level and Lives
+        Lives = 3; //Start with 3 Lives
+    }
 
     private void Awake() {
         
@@ -16,9 +25,20 @@ public class LevelManager : MonoBehaviour
             instance = this;
         }
     }
-
+       
     public void OnPlayerKilled() {
 
         player.OnDeath();
+        Lives--; //Lose a Life
+
+        if (Lives < 0) //Mario dies when he has 0 lives LEFT, not when he reaches 0 lives.
+        {
+            GameOver();           
+        }
+    }
+
+    private void GameOver()
+    {
+        //TO:DO - Game Over code here
     }
 }

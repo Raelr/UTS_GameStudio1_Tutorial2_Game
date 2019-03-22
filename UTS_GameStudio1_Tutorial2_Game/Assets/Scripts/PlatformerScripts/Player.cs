@@ -142,5 +142,6 @@ public class Player : MonoBehaviour {
 
         isAlive = false;
         animator.SetBool("Alive", false);
+        //TO:DO - Add Respawn
     }
 }
