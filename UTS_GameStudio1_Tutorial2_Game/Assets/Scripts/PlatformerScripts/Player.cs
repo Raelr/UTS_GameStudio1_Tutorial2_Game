@@ -61,6 +61,8 @@ public class Player : MonoBehaviour {
             // If we arent moving then just apply gravity normally.
             controller.ApplyGravity(ref input, true);
 
+            animator.SetBool("isWalking", false);
+
         } else {
 
             controller.ApplyGravity(ref input);
@@ -70,6 +72,10 @@ public class Player : MonoBehaviour {
                 controller.Jump(ref input);
 
             }
+
+            animator.SetBool("isWalking", true);
+
+            animator.SetFloat("DirectionX", input.x);
 
             controller.ApplyMovement(input);
         }
