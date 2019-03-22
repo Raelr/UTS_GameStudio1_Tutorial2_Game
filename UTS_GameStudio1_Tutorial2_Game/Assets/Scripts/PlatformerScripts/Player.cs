@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Player : MonoBehaviour {
 
@@ -18,13 +17,17 @@ public class Player : MonoBehaviour {
 
     bool isAlive;
 
+    //status store the stage of powerup, 1 is normal, 2 is mashroomed, 3 is fire mode, 4 is invincible.
+    private int status = 1;
+
+    SpriteRenderer renderer;
+
+    Vector3 facingDirection;
+
     // Delegate for anything which needs to know whether the player is moving
     public delegate void PlayerMovedHandler();
 
     public event PlayerMovedHandler playerMoved;
-
-    //status store the stage of powerup, 1 is normal, 2 is mashroomed, 3 is fire mode, 4 is invincible.
-    private int status = 1;
 
     void Start() {
 
@@ -33,6 +36,10 @@ public class Player : MonoBehaviour {
         controller = GetComponent<Controller2D>();
 
         animator = GetComponent<Animator>();
+
+        renderer = GetComponentInChildren<SpriteRenderer>();
+
+        facingDirection = Vector2.right;
     }
 
     void Update() {
@@ -51,6 +58,8 @@ public class Player : MonoBehaviour {
         // Get the current axis values and add them to a vector.
         FindAxes();
 
+        UpdateFacingDirection(input);
+
         bool crouching;
 
         bool isJumping = false;
@@ -64,6 +73,7 @@ public class Player : MonoBehaviour {
         controller.Crouch(crouching);
 
         if (IsStill() && !SpacePressed()) {
+
             // If we arent moving then just apply gravity normally.
             controller.ApplyGravity(ref input, true);
 
@@ -76,29 +86,48 @@ public class Player : MonoBehaviour {
             if (SpacePressed()) {
 
                 controller.Jump(ref input);
-
-                if (!controller.Collisions.isBelow) {
-                    isJumping = true;
-                }
             }
 
-            if (controller.Collisions.isBelow) {
+            if (controller.Collisions.isBelow && input.x != 0) {
 
                 animator.SetBool("isWalking", true);
-                animator.SetFloat("DirectionX", input.x);
-                isJumping = false;
+
             }
-
-
-            animator.SetBool("isJumping", isJumping);
 
             controller.ApplyMovement(input);
         }
+
+        if (!controller.Collisions.isBelow) {
+
+            isJumping = true;
+        }
+
+        animator.SetBool("isJumping", isJumping);
 
         // If anything is listening for player movement then invoke the delegate.
         if (playerMoved != null) {
 
             playerMoved.Invoke();
+        }
+    }
+
+    void UpdateFacingDirection(Vector3 input) {
+
+        float xValue = Mathf.RoundToInt(input.x);
+
+        facingDirection = new Vector3(xValue, 0, 0);
+
+        if (Utilities.VectorEquals(facingDirection, Vector3.right)) {
+
+            if (renderer.transform.rotation.y != 0) {
+                renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 0, renderer.transform.rotation.z);
+            }
+
+        } else if (Utilities.VectorEquals(facingDirection, -Vector3.right)) {
+
+            if (renderer.transform.rotation.y != 180) {
+                renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 180, renderer.transform.rotation.z);
+            }
         }
     }
 
@@ -121,10 +150,11 @@ public class Player : MonoBehaviour {
         return input.x == 0 && input.y == 0;
     }
 
-    public void GetPowerUp(PowerUp.Abilities ability){
-        switch(ability){
+
+    public void GetPowerUp(PowerUp.Abilities ability) {
+        switch (ability) {
             case PowerUp.Abilities.Mashroom:
-                transform.position += new Vector3(0, GetComponent<Collider2D>().bounds.size.y/2, 0);
+                transform.position += new Vector3(0, GetComponent<Collider2D>().bounds.size.y / 2, 0);
                 transform.localScale *= 2;
                 status = 2;
                 break;
@@ -138,10 +168,10 @@ public class Player : MonoBehaviour {
                 break;
         }
     }
+
     public void OnDeath() {
 
         isAlive = false;
         animator.SetBool("Alive", false);
-        //TO:DO - Add Respawn
     }
 }

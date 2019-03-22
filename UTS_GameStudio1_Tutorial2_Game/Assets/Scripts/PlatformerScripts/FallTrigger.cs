@@ -13,7 +13,7 @@ public class FallTrigger : MonoBehaviour
 
         } else if (controller.transform.tag == "Enemy") {
 
-            Destroy(controller.gameObject);
+            controller.gameObject.SetActive(false);
         }
     }
 }
