@@ -110,13 +110,7 @@ public class Controller2D : RayCastUser {
         // Update Collisons if player is moving vertically (jumping or falling).
         if (input.y != 0) {
             VerticalCollisions(ref input);
-
         }
-
-        //to be delete
-        Debug.Log("pos "+transform.position);
-        Debug.Log("input "+input);
-        //to be delete
 
         // Move the player.
         transform.Translate(input);
@@ -331,8 +325,8 @@ public class Controller2D : RayCastUser {
 
     void CheckForPowerUp(RaycastHit2D hit) {
 
-        if (hit.transform.tag == "PowerUp") {
-
+        if (hit.transform.tag.Equals("PowerUp")) {
+            Debug.Log("Powerup");
             PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
             powerUp.OnPickup();
 

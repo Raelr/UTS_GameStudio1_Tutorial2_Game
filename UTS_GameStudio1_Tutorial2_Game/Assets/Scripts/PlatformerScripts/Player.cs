@@ -94,6 +94,7 @@ public class Player : MonoBehaviour {
     public void GetPowerUp(PowerUp.Abilities ability){
         switch(ability){
             case PowerUp.Abilities.Mashroom:
+                transform.position += new Vector3(0, GetComponent<Collider2D>().bounds.size.y/2, 0);
                 transform.localScale *= 2;
                 status = 2;
                 break;
