@@ -355,8 +355,6 @@ public class Controller2D : RayCastUser {
 
         if (hit.transform.tag == "VulnerablePoint") {
 
-            Debug.Log("VulnerablePoint");
-
             Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
 
             enemy.OnPlayerStomp();
