@@ -9,6 +9,9 @@ public abstract class PowerUp : MonoBehaviour
 
     protected bool isInitialising;
 
+    public enum Abilities {Mashroom, Fire, Invincible}
+    protected Abilities ability;
+
     void Start()
     {
         
@@ -51,5 +54,9 @@ public abstract class PowerUp : MonoBehaviour
         Debug.Log("Picked Up!");
         Destroy(this.gameObject);
 
+    }
+
+    public Abilities GetAbility(){
+        return ability;
     }
 }
