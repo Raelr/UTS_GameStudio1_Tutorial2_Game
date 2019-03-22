@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FallTrigger : MonoBehaviour
 {
-    
     public void OnTrigger(Controller2D controller) {
 
         if (controller.transform.tag == "Player") {
