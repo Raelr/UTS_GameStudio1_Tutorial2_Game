@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - VulnerablePoint
   - Trigger
+  - FallPoint
   layers:
   - Default
   - TransparentFX

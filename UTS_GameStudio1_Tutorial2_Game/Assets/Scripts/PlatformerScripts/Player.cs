@@ -49,6 +49,8 @@ public class Player : MonoBehaviour {
 
         bool crouching;
 
+        bool isJumping = false;
+
         if (Input.GetKey("s") || Input.GetKey("down")) {
             crouching = true;
         } else {
@@ -61,6 +63,8 @@ public class Player : MonoBehaviour {
             // If we arent moving then just apply gravity normally.
             controller.ApplyGravity(ref input, true);
 
+            animator.SetBool("isWalking", false);
+
         } else {
 
             controller.ApplyGravity(ref input);
@@ -69,7 +73,20 @@ public class Player : MonoBehaviour {
 
                 controller.Jump(ref input);
 
+                if (!controller.Collisions.isBelow) {
+                    isJumping = true;
+                }
             }
+
+            if (controller.Collisions.isBelow) {
+
+                animator.SetBool("isWalking", true);
+                animator.SetFloat("DirectionX", input.x);
+                isJumping = false;
+            }
+
+
+            animator.SetBool("isJumping", isJumping);
 
             controller.ApplyMovement(input);
         }

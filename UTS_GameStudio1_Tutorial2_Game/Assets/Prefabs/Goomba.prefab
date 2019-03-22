@@ -215,7 +215,7 @@ MonoBehaviour:
   boxCollider: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1049088
   moveSpeed: 3
   jumpHeight: 4.4
   timeToJumpApex: 0.46
