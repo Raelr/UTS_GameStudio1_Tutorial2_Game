@@ -42,4 +42,9 @@ public class LevelManager : MonoBehaviour
     public void OnPlayerKilled() {
         player.OnDeath();
     }
+
+    public void pickUpCoin() {
+        _coins++;
+        _score += 200;
+    }
 }
