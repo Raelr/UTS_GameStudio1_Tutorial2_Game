@@ -120,9 +120,7 @@ public class Player : MonoBehaviour {
             default:
                 break;
         }
-      }
-
-
+    }
     public void OnDeath() {
 
         isAlive = false;
