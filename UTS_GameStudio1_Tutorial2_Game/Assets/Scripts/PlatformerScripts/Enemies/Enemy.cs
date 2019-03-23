@@ -25,10 +25,10 @@ public abstract class Enemy : MonoBehaviour {
 
     protected void Move() {
 
-
         if (direction == Vector3.right && controller.Collisions.isRight) {
 
             direction = -Vector3.right;
+
         } else if (direction == -Vector3.right && controller.Collisions.isLeft) {
 
             direction = Vector3.right;
@@ -48,5 +48,24 @@ public abstract class Enemy : MonoBehaviour {
         collider = GetComponent<BoxCollider2D>();
 
         CanMove = true;
+
+        controller.collisionIgnoreConditions += IgnoreCollisions;
+
+        controller.onCollision += CheckForFallTrigger;
+    }
+
+    protected bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
+
+        return hit.transform.tag == "Trigger" || (hit.distance == 0 && hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy");
+    }
+
+    protected void CheckForFallTrigger(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "FallPoint") {
+
+            FallTrigger fallTrigger = hit.transform.GetComponent<FallTrigger>();
+
+            fallTrigger.OnTrigger(controller);
+        }
     }
 }

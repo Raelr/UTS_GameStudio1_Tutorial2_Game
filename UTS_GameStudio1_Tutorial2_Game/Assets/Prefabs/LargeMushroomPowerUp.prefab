@@ -156,7 +156,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f14bb3ce6b92408e9644e3adfacb887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   animator: {fileID: 2024443540454050214}
   controller: {fileID: 8322487811357576584}
 --- !u!114 &5612174143057424133
@@ -184,8 +184,8 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11fd02afacdfaae428e8afaf3e36a987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   animator: {fileID: 2024443540454050214}
   controller: {fileID: 8322487811357576584}
 --- !u!114 &8322487811357576584
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f2e87b5f51b0374ebabd14baa760928, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   horizontalRayCount: 4
   verticalRayCount: 4
   horizontalRaySpacing: 0
@@ -211,8 +211,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpHeight: 5
   timeToJumpApex: 0.4
-  accelerationTimeAirborn: 0.1
-  accelerationTimeGrounded: 0.1
+  accelerationTimeAirborn: 0
+  accelerationTimeGrounded: 0
   jumpVelocity: 0
   gravity: 0
   maxClimbAngle: 0

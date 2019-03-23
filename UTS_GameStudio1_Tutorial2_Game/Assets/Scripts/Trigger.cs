@@ -18,13 +18,16 @@ public class Trigger : MonoBehaviour
 
         for (int i = 0; i < enemies.Length; i++) {
             enemies[i].CanMove = false;
+            enemies[i].gameObject.SetActive(false);
         }
     }
 
     public void OnPlayerEnter() {
 
         for (int i = 0; i < enemies.Length; i++) {
-            enemies[i].CanMove = true; 
+            enemies[i].gameObject.SetActive(true);
+            enemies[i].CanMove = true;
+            
         }
     }
 

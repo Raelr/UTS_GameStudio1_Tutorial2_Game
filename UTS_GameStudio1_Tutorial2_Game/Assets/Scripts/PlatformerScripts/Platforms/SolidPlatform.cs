@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SolidPlatform : Platform {
 
-    public override bool AllowedToJumpThrough(float direction, bool isCheckingDIrection) {
+    public override bool AllowedToJumpThrough(float direction) {
 
         return platformType == PlatformType.Solid ? false : true;
     }
