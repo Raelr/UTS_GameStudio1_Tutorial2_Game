@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 
     public bool IsAlive { get { return isAlive; } set { isAlive = value; } }
+    public Status CurrentStatus { get { return status; }}
 
     [Header("Player Controller")]
     [SerializeField]
@@ -17,8 +19,13 @@ public class Player : MonoBehaviour {
 
     bool isAlive;
 
-    //status store the stage of powerup, 1 is normal, 2 is mashroomed, 3 is fire mode, 4 is invincible.
-    private int status = 1;
+    //status store the stage of powerup, 1 is normal, 2 is mashroomed, 4 is fire mode, 8 is invincible, 
+    //16 is untouchable, which happen during status changing time, normally last for few seconds.
+    //Flags means status value could be used as bit values, so that multiple values can be true at once.
+    //For example, mario can have SizeUp/OnFire/OnInvincible all at one time.
+    [Flags] public enum Status {Normal = 1, SizeUp = 2, OnFire = 4, OnInvincible = 8, OnUnTouchable = 16}
+    private float timer;
+    private Status status = Status.Normal;
 
     SpriteRenderer renderer;
 
@@ -44,8 +51,23 @@ public class Player : MonoBehaviour {
 
     void Update() {
 
+        Tick();
         if (isAlive) {
             MoveByInput();
+        }
+    }
+
+    /// <summary>
+    /// for timer
+    /// </summary>
+    void Tick(){
+        if (timer > 0){
+            timer -= Time.deltaTime;
+            if (timer <= 0){
+                //This is bit operation. To set the status 0 on Status.OnUnTouchable bit.
+                //Which means mario is no longer Untouchable.
+                status &= ~Status.OnUnTouchable;
+            }
         }
     }
 
@@ -152,17 +174,19 @@ public class Player : MonoBehaviour {
 
 
     public void GetPowerUp(PowerUp.Abilities ability) {
+        if (status == Status.Normal){
+            SizeUp();
+        }
+
         switch (ability) {
             case PowerUp.Abilities.Mashroom:
-                transform.position += new Vector3(0, GetComponent<Collider2D>().bounds.size.y / 2, 0);
-                transform.localScale *= 2;
-                status = 2;
                 break;
             case PowerUp.Abilities.Fire:
-                status = 3;
+                //Bit operation. Means the bit on Status.OnFire is set to 1;
+                status |= Status.OnFire;
                 break;
             case PowerUp.Abilities.Invincible:
-                status = 4;
+                status |= Status.OnInvincible;
                 break;
             default:
                 break;
@@ -173,5 +197,36 @@ public class Player : MonoBehaviour {
 
         isAlive = false;
         animator.SetBool("Alive", false);
+        Debug.Log("I'm dead");
+    }
+
+    public void SizeUp(){
+        float feety = transform.position.y - GetComponent<Collider2D>().bounds.size.y * 0.5f;
+        transform.localScale = Vector3.one * 1.6f;
+        transform.position = new Vector3(transform.position.x, GetComponent<Collider2D>().bounds.size.y * 0.5f + feety, transform.position.z);
+        status = Status.SizeUp;
+        ChangeStatus();
+    }
+
+    public void Shrink(){
+        float feety = transform.position.y - GetComponent<Collider2D>().bounds.size.y * 0.5f;
+        transform.localScale = Vector3.one;
+        transform.position = new Vector3(transform.position.x, GetComponent<Collider2D>().bounds.size.y * 0.5f + feety, transform.position.z);
+        status = Status.Normal;
+        ChangeStatus();
+    }
+
+    public void ChangeStatus(){
+        status |= Status.OnUnTouchable;
+        timer = 2f;
+    }
+
+    public void OnHurt(){
+        if (status != Status.Normal){
+            Shrink();
+            Debug.Log("I'm hurt");
+        }else{
+            OnDeath();
+        }
     }
 }

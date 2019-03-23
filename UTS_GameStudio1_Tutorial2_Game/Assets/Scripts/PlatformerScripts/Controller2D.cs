@@ -74,7 +74,7 @@ public class Controller2D : RayCastUser {
     Platform currentPlatform;
 
     // Delegate for powerup;
-    public event Action OnPowerPickUp;
+    //public event Action OnPowerPickUp;
 
     /// <summary>
     /// Set jump velocity and gravity base don the jump height and timeToJumpApex variables.
@@ -340,7 +340,6 @@ public class Controller2D : RayCastUser {
     void CheckForPowerUp(RaycastHit2D hit) {
 
         if (hit.transform.tag.Equals("PowerUp")) {
-            Debug.Log("Powerup");
             PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
             powerUp.OnPickup();
 
@@ -363,9 +362,10 @@ public class Controller2D : RayCastUser {
 
         } else if (hit.transform.tag == "Enemy") {
 
-            Debug.Log("Enemy");
+            //Debug.Log("Enemy");
 
-            LevelManager.instance.OnPlayerKilled();
+            //LevelManager.instance.OnPlayerKilled();
+            LevelManager.instance.OnEnemyHit();
         }
 
         currentPlatformCollider = hit.collider;
