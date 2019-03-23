@@ -26,7 +26,7 @@ public class MysteryBlock : Platform
         renderer.sprite = defaultSprite;
     }
 
-    public override bool AllowedToJumpThrough(float direction, bool isCheckingDIrection) {
+    public override bool AllowedToJumpThrough(float direction) {
 
         return platformType == PlatformType.Solid ? false : true;
     }

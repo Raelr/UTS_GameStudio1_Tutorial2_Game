@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/PlatformerPhysicsScene.unity
+    guid: 5007bf6091f845344a5bb2d01de88279
   m_configObjects: {}
