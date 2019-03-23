@@ -25,7 +25,33 @@ public class LevelManager : MonoBehaviour
             instance = this;
         }
     }
-       
+
+    public void OnEnemyHit() {
+        Debug.Log("Enemy Hit");
+        // if player status is OnUnTouchable
+        if ((player.CurrentStatus & Player.Status.OnUnTouchable) != 0) {
+            //Nothing happen maybe
+
+        } else if ((player.CurrentStatus & Player.Status.OnInvincible) != 0) {
+            //Enemy get killed
+
+        } else {
+            OnPlayerHurt();
+        }
+    }
+
+    public void OnPlayerHurt() {
+        player.OnHurt();
+        if (!player.IsAlive) {
+            Lives--;
+
+            if (Lives < 0) //Mario dies when he has 0 lives LEFT, not when he reaches 0 lives.
+            {
+                GameOver();
+            }
+        }
+    }
+
     public void OnPlayerKilled() {
 
         player.OnDeath();
