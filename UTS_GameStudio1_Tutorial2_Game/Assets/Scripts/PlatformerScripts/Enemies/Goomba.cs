@@ -17,7 +17,9 @@ public class Goomba : Enemy
     void Awake()
     {
         Init();
+
         direction = -Vector3.right;
+
         isAlive = true;
     }
 
@@ -40,6 +42,6 @@ public class Goomba : Enemy
 
         Instantiate(corpse, spawnPosition, Quaternion.identity);
 
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 }

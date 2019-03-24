@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : PlatformUser {
 
     public bool IsAlive { get { return isAlive; } set { isAlive = value; } }
 
@@ -40,6 +40,18 @@ public class Player : MonoBehaviour {
         renderer = GetComponentInChildren<SpriteRenderer>();
 
         facingDirection = Vector2.right;
+
+        controller.onCollision += CheckEnemyHit;
+
+        controller.onCollision += CheckForPowerUp;
+
+        controller.onCollision += CheckForTrigger;
+
+        controller.onCollision += CheckCurrentCollider;
+
+        controller.directionConditions += TriggerPlatformMove;
+
+        controller.collisionIgnoreConditions += IgnoreCollisions;
     }
 
     void Update() {
@@ -173,5 +185,72 @@ public class Player : MonoBehaviour {
 
         isAlive = false;
         animator.SetBool("Alive", false);
+    }
+
+    public void CheckEnemyHit(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "VulnerablePoint") {
+
+            Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
+
+            enemy.OnPlayerStomp();
+
+            controller.Bounce();
+
+        } else if (hit.transform.tag == "Enemy") {
+
+            LevelManager.instance.OnPlayerKilled();
+        }
+    }
+
+    void CheckForPowerUp(RaycastHit2D hit) {
+
+        if (hit.transform.tag.Equals("PowerUp")) {
+
+            PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
+
+            powerUp.OnPickup();
+
+            GetPowerUp(powerUp.GetAbility());
+        }
+    }
+
+    void TriggerPlatformMove() {
+
+        if (controller.Collisions.isAbove) {
+            currentPlatform.OnPlayerHit();
+        }
+    }
+
+    protected override void CheckForTrigger(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider) {
+
+            Trigger trigger = hit.transform.GetComponent<Trigger>();
+
+            trigger.OnPlayerEnter();
+
+            currentPlatformCollider = hit.collider;
+
+        } else if (hit.transform.tag == "FallPoint" && currentPlatformCollider != hit.collider) {
+
+            FallTrigger trigger = hit.transform.GetComponent<FallTrigger>();
+
+            trigger.OnTrigger(controller);
+
+            currentPlatformCollider = hit.collider;
+        }
+    }
+
+    protected override bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
+
+        bool success = false;
+
+        if (currentPlatformCollider != null) {
+
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint";
+        }
+
+        return success;
     }
 }
