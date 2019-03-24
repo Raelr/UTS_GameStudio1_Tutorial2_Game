@@ -26,14 +26,14 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void OnEnemyHit() {
+    public void OnEnemyHit(Enemy enemy) {
         Debug.Log("Enemy Hit");
-        // if player status is OnUnTouchable
-        if ((player.CurrentStatus & Player.Status.OnUnTouchable) != 0) {
-            //Nothing happen maybe
-
-        } else if ((player.CurrentStatus & Player.Status.OnInvincible) != 0) {
+        // if player status is OnInvincible
+        if ((player.CurrentStatus & Player.Status.OnInvincible) != 0) {
             //Enemy get killed
+            //enemy.OnPlayerStomp();
+        } else if ((player.CurrentStatus & Player.Status.OnUnTouchable) != 0) {
+            //Nothing happen maybe
 
         } else {
             OnPlayerHurt();

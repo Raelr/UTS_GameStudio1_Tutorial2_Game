@@ -26,6 +26,9 @@ public class Player : MonoBehaviour {
     [Flags] public enum Status { Normal = 1, SizeUp = 2, OnFire = 4, OnInvincible = 8, OnUnTouchable = 16 }
     private float timer;
     private Status status = Status.Normal;
+    //Invincible time set to 10 seconds, untouchable timer set to 2 seconds;
+    private float InvincibleTime = 10f;
+    private float UnTouchableTime = 2f;
 
     SpriteRenderer renderer;
 
@@ -52,6 +55,7 @@ public class Player : MonoBehaviour {
     void Update() {
 
         Tick();
+        Flash();
         if (isAlive) {
             MoveByInput();
         }
@@ -67,7 +71,16 @@ public class Player : MonoBehaviour {
                 //This is bit operation. To set the status 0 on Status.OnUnTouchable bit.
                 //Which means mario is no longer Untouchable.
                 status &= ~Status.OnUnTouchable;
+                status &= ~Status.OnInvincible;
             }
+        }
+    }
+
+    void Flash(){
+        float grey = 0;
+        if ((status & Status.OnInvincible) != 0){
+            grey = 0.5f + Mathf.Abs(timer - (int)timer - 0.5f);
+            renderer.color = new Color(grey, grey, grey);
         }
     }
 
@@ -187,6 +200,7 @@ public class Player : MonoBehaviour {
                 break;
             case PowerUp.Abilities.Invincible:
                 status |= Status.OnInvincible;
+                timer = InvincibleTime;
                 break;
             default:
                 break;
@@ -218,7 +232,7 @@ public class Player : MonoBehaviour {
 
     public void ChangeStatus() {
         status |= Status.OnUnTouchable;
-        timer = 2f;
+        timer = UnTouchableTime;
     }
 
     public void OnHurt() {

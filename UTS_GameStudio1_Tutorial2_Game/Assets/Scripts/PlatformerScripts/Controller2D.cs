@@ -365,7 +365,8 @@ public class Controller2D : RayCastUser {
             //Debug.Log("Enemy");
 
             //LevelManager.instance.OnPlayerKilled();
-            LevelManager.instance.OnEnemyHit();
+            Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
+            LevelManager.instance.OnEnemyHit(enemy);
         }
 
         currentPlatformCollider = hit.collider;
