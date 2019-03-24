@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8884189019015771049}
   - component: {fileID: 8884189019015771050}
-  - component: {fileID: 8884189019015771051}
   - component: {fileID: 8884189019015771060}
   m_Layer: 9
   m_Name: LargePipe
@@ -53,32 +52,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
---- !u!61 &8884189019015771051
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8884189019015771061}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0049939156, y: -0.66216993}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.188573, y: 3.7256184}
-  m_EdgeRadius: 0
 --- !u!61 &8884189019015771060
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -92,7 +65,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004993677, y: 1.8539684}
+  m_Offset: {x: -0.004993677, y: -0.012577772}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -103,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.488213, y: 1.1291184}
+  m_Size: {x: 2.488213, y: 4.8622108}
   m_EdgeRadius: 0
 --- !u!1 &8884189019075003131
 GameObject:
