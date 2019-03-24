@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour {
+public abstract class Enemy : PlatformUser {
 
     public bool IsAlive { get { return isAlive; } }
 
     public bool CanMove { get { return canMove; } set { canMove = value; } }
 
     [SerializeField]
-    Controller2D controller;
+    protected Controller2D controller;
 
     [SerializeField]
     protected Collider2D collider;
@@ -51,15 +51,17 @@ public abstract class Enemy : MonoBehaviour {
 
         controller.collisionIgnoreConditions += IgnoreCollisions;
 
-        controller.onCollision += CheckForFallTrigger;
+        controller.onCollision += CheckForTrigger;
+
+        controller.onCollision += CheckCurrentCollider;
     }
 
-    protected bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
+    protected override bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
 
         return hit.transform.tag == "Trigger" || (hit.distance == 0 && hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy");
     }
 
-    protected void CheckForFallTrigger(RaycastHit2D hit) {
+    protected override void CheckForTrigger(RaycastHit2D hit) {
 
         if (hit.transform.tag == "FallPoint") {
 

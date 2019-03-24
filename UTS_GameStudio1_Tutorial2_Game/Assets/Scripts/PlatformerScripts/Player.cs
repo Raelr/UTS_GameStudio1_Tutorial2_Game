@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : PlatformUser {
 
     public bool IsAlive { get { return isAlive; } set { isAlive = value; } }
 
@@ -29,10 +29,6 @@ public class Player : MonoBehaviour {
 
     public event PlayerMovedHandler playerMoved;
 
-    Collider2D currentPlatformCollider;
-
-    Platform currentPlatform;
-
     void Start() {
 
         isAlive = true;
@@ -55,7 +51,7 @@ public class Player : MonoBehaviour {
 
         controller.directionConditions += TriggerPlatformMove;
 
-        controller.collisionIgnoreConditions += CanJumpThrough;
+        controller.collisionIgnoreConditions += IgnoreCollisions;
     }
 
     void Update() {
@@ -203,8 +199,6 @@ public class Player : MonoBehaviour {
 
         } else if (hit.transform.tag == "Enemy") {
 
-            Debug.Log("Enemy");
-
             LevelManager.instance.OnPlayerKilled();
         }
     }
@@ -221,7 +215,14 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void CheckForTrigger(RaycastHit2D hit) {
+    void TriggerPlatformMove() {
+
+        if (controller.Collisions.isAbove) {
+            currentPlatform.OnPlayerHit();
+        }
+    }
+
+    protected override void CheckForTrigger(RaycastHit2D hit) {
 
         if (hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider) {
 
@@ -241,30 +242,15 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void CheckCurrentCollider(RaycastHit2D hit) {
+    protected override bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
 
-        if (hit.transform.tag == "Platform" && hit.collider != currentPlatformCollider) {
-
-            currentPlatformCollider = hit.collider;
-            Platform platform = hit.transform.GetComponent<Platform>();
-            currentPlatform = platform == null ? null : platform;
-        }
-    }
-
-    void TriggerPlatformMove() {
-
-        if (controller.Collisions.isAbove) {
-            currentPlatform.OnPlayerHit();
-        }
-    }
-
-    bool CanJumpThrough(RaycastHit2D hit, float direction) {
+        bool success = false;
 
         if (currentPlatformCollider != null) {
-            return hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint";
-        } else {
-            return false;
+
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint";
         }
 
+        return success;
     }
 }

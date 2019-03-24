@@ -17,7 +17,9 @@ public class Goomba : Enemy
     void Awake()
     {
         Init();
+
         direction = -Vector3.right;
+
         isAlive = true;
     }
 
