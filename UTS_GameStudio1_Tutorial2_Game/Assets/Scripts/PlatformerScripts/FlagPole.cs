@@ -20,6 +20,9 @@ public class FlagPole : MonoBehaviour
     [SerializeField]
     Vector3 mariOffset;
 
+    [SerializeField]
+    Sprite flagPoleSprite;
+
     public void InitEndAnimation() {
 
         StartCoroutine(PlayEndAnimation());
@@ -27,24 +30,16 @@ public class FlagPole : MonoBehaviour
     
     IEnumerator PlayEndAnimation() {
 
-        player.CanMove = false;
-
-        Debug.Log("End");
-
         yield return StartCoroutine(MovePlayerDownPole());
     }
 
     IEnumerator MovePlayerDownPole() {
 
-        Vector3 endpositionMario = end.position + mariOffset;
-
         Vector3 endpositionFlag = end.position + offset;
 
         while (!Utilities.VectorEquals(player.transform.position, end.position)) {
 
-            player.transform.position = Vector3.Lerp(player.transform.position , endpositionMario , 1.5f * Time.deltaTime);
-
-            flag.transform.position = Vector3.Lerp(flag.transform.position, endpositionFlag, 0.5f * Time.deltaTime);
+            flag.transform.position = Vector3.Lerp(flag.transform.position, endpositionFlag, 0.05f * Time.deltaTime);
 
             yield return null;
         }

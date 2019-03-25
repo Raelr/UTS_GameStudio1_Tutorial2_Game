@@ -73,6 +73,7 @@ public class Player : PlatformUser {
         if (isAlive) {
 
             if (canMove) {
+
                 MoveByInput();
 
                 if (Input.GetKeyDown("f")) {
@@ -288,9 +289,19 @@ public class Player : PlatformUser {
 
         if (currentPlatformCollider != null) {
 
-            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint";
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole";
         }
 
         return success;
+    }
+
+    public void ChangeSprite(Sprite sprite) {
+
+
+        animator.SetBool("isJumping", false);
+
+        animator.SetBool("isWalking", false);
+
+        renderer.sprite = sprite;
     }
 }
