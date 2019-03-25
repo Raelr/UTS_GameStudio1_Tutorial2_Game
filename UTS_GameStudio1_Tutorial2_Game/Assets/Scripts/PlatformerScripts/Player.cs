@@ -41,6 +41,14 @@ public class Player : PlatformUser {
 
     public event PlayerMovedHandler playerMoved;
 
+    //SFX
+    [SerializeField]
+    AudioClip jumpSound, gameOverSound, stageClearSound, starSound, extraLifeSound, breakBlockSound, bumpSound,
+        fireballSound, flagpoleSound, kickSound, pipeSound, mushroomSound, stompSound,
+        dieSound;
+
+
+
     void Start() {
 
         isAlive = true;
@@ -120,7 +128,11 @@ public class Player : PlatformUser {
 
             if (SpacePressed()) {
 
-                controller.Jump(ref input);
+                if (controller.Collisions.isBelow) {
+                    controller.Jump(ref input);
+                    SoundManager.instance.PlaySingle(jumpSound);
+                }
+
             }
 
             if (controller.Collisions.isBelow && input.x != 0) {
@@ -135,9 +147,12 @@ public class Player : PlatformUser {
         if (!controller.Collisions.isBelow) {
 
             isJumping = true;
+
         }
 
         animator.SetBool("isJumping", isJumping);
+
+
 
         // If anything is listening for player movement then invoke the delegate.
         if (playerMoved != null) {
@@ -199,6 +214,8 @@ public class Player : PlatformUser {
 
             FireProjectile projectile = Instantiate(this.projectile, transform.position + facingDirection, Quaternion.identity);
 
+            SoundManager.instance.PlaySingle(fireballSound);
+
             projectile.Direction = facingDirection;
         }
     }
@@ -207,11 +224,14 @@ public class Player : PlatformUser {
         switch (ability) {
             case PowerUp.Abilities.Mashroom:
                 status = 2;
+                SoundManager.instance.PlaySingle(mushroomSound);
                 break;
             case PowerUp.Abilities.Fire:
+                SoundManager.instance.PlaySingle(mushroomSound);
                 status = 3;
                 break;
             case PowerUp.Abilities.Invincible:
+                SoundManager.instance.PlaySingle(mushroomSound);
                 status = 4;
                 break;
             default:
@@ -221,21 +241,27 @@ public class Player : PlatformUser {
 
     public void OnDeath() {
 
+        SoundManager.instance.PlaySingle(dieSound);
+        SoundManager.instance.StopSound();
+
         isAlive = false;
 
         if (LevelManager.instance.Lives <= 0) {
 
             StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.ReturnToMenu));
+            SoundManager.instance.PlaySingle(gameOverSound);
+
         } else {
 
             StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.RestartLevel));
-            
+            SoundManager.instance.PlaySingle(dieSound);
         }
     }
 
     public void CheckEnemyHit(RaycastHit2D hit) {
 
         if (hit.transform.tag == "VulnerablePoint") {
+            SoundManager.instance.PlaySingle(stompSound);
 
             Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
 
@@ -252,6 +278,7 @@ public class Player : PlatformUser {
     void CheckForPowerUp(RaycastHit2D hit) {
 
         if (hit.transform.tag.Equals("PowerUp")) {
+
 
             PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
 
@@ -289,6 +316,7 @@ public class Player : PlatformUser {
         } else if (hit.transform.tag == "FlagPole" && currentPlatformCollider != hit.collider) {
 
             LevelManager.instance.PlayEndAnimation();
+            SoundManager.instance.PlayLoop(stageClearSound);
         } else if (hit.transform.tag == "End" && currentPlatformCollider != hit.collider) {
 
             LevelManager.instance.ReturnToMenu();

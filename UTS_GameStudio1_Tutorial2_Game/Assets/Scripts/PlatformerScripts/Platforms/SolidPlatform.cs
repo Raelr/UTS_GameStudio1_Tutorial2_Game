@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SolidPlatform : Platform {
 
+    //SFX
+    [SerializeField]
+    AudioClip bumpSound, breakBlockSound;
+
     public override bool AllowedToJumpThrough(float direction) {
 
         return platformType == PlatformType.Solid ? false : true;
@@ -23,8 +27,10 @@ public class SolidPlatform : Platform {
     }
 
     IEnumerator PlayAnimation() {
+       
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Block_Hit")) {
+            SoundManager.instance.PlaySingle(bumpSound);
 
             animator.SetBool("isHit", true);
 

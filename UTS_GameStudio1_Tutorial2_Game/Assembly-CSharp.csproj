@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\PlatformerScripts\RayCastUser.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Trigger.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Utilities.cs" />
+    <Compile Include="Assets\SoundManager.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />

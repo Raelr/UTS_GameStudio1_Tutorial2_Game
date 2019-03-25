@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    void Start() {
-        
-    }
-    
-    void Update() {
-        
-    }
+    //SFX
+    [SerializeField]
+    AudioClip coinSound;
 
     private void OnTrigger() {
-        Destroy(this);
+        SoundManager.instance.PlaySingle(coinSound);
         LevelManager.instance.pickUpCoin();
+        Destroy(this);      
+        
     }
 }

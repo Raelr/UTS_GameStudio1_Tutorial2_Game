@@ -170,6 +170,7 @@ public class Controller2D : RayCastUser {
 
             inputVelocity.y = jumpVelocity;
             velocity.y = jumpVelocity;
+
         }
     }
 

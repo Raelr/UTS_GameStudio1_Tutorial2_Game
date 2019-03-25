@@ -132,6 +132,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 8300000, guid: da9dd0f618a8e7f47b12fef9fcb01742, type: 3}
+  breakBlockSound: {fileID: 8300000, guid: 539c82f2994f90e49b66864aaeb6d0f7, type: 3}
 --- !u!95 &8073713282016766688
 Animator:
   serializedVersion: 3

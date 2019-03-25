@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Mashroom : PowerUp
 {
+    //SFX
+    [SerializeField]
+    AudioClip mushroomSound;
 
     Vector3 direction;
 
@@ -55,7 +58,7 @@ public class Mashroom : PowerUp
     public override void OnPickup() {
 
         Debug.Log("Picked up Large Mushroom");
-
+        //SoundManager.instance.PlaySingle(mushroomSound);
         Destroy(gameObject);
     }
 }

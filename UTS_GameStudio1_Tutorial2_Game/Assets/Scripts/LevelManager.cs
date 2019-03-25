@@ -28,6 +28,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     FlagPole flag;
+    //SFX
+    [SerializeField]
+    AudioClip backgroundMusic, gameOverSound;
 
     public int Lives { get; set; }
 
@@ -48,12 +51,8 @@ public class LevelManager : MonoBehaviour
     }
 
     private IEnumerator DisplayLivesScreen() {
-        //Set delay on Lives Screen
-        Time.timeScale = 0f;
-        float pauseEndTime = Time.realtimeSinceStartup + (float)LivesScreenSecondsDelay;
-        while (Time.realtimeSinceStartup < pauseEndTime) {
-            yield return 0;
-        }
+
+        yield return new WaitForSeconds(2f);
 
         Color c = _livesBackground.color;
         c.a = 0;
@@ -62,10 +61,12 @@ public class LevelManager : MonoBehaviour
         _livesImgUI.color = c;
         _livesUI.color = c;
         Time.timeScale = 1f;
+
+        SoundManager.instance.PlayLoop(backgroundMusic);
     }
 
     private void Awake() {
-        
+
         if (instance == null) {
             instance = this;
         }
@@ -91,7 +92,6 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("Lives", Lives);
 
         player.OnDeath();
-
     }
 
     public void SetPlayerProjectile(FireProjectile projectile) {
@@ -102,11 +102,6 @@ public class LevelManager : MonoBehaviour
     public void PlayEndAnimation() {
 
         flag.InitEndAnimation();
-    }
-
-    private void GameOver()
-    {
-        //TO:DO - Game Over code here
     }
 
     public void pickUpCoin()

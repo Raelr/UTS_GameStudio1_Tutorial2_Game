@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 662507140655917030}
-  controller: {fileID: 7374253541353923528}
+  mushroomSpawnSound: {fileID: 8300000, guid: 020b33434fcc2684a989faaa661578aa, type: 3}
 --- !u!114 &7374253541353923528
 MonoBehaviour:
   m_ObjectHideFlags: 0
