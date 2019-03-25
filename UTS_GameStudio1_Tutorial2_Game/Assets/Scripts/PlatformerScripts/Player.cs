@@ -132,7 +132,7 @@ public class Player : PlatformUser {
                     controller.Jump(ref input);
                     SoundManager.instance.PlaySingle(jumpSound);
                 }
-                
+
             }
 
             if (controller.Collisions.isBelow && input.x != 0) {
@@ -147,12 +147,12 @@ public class Player : PlatformUser {
         if (!controller.Collisions.isBelow) {
 
             isJumping = true;
-            
+
         }
 
         animator.SetBool("isJumping", isJumping);
 
-        
+
 
         // If anything is listening for player movement then invoke the delegate.
         if (playerMoved != null) {
@@ -312,10 +312,14 @@ public class Player : PlatformUser {
             trigger.OnTrigger(controller);
 
             currentPlatformCollider = hit.collider;
+
         } else if (hit.transform.tag == "FlagPole" && currentPlatformCollider != hit.collider) {
 
             LevelManager.instance.PlayEndAnimation();
             SoundManager.instance.PlayLoop(stageClearSound);
+        } else if (hit.transform.tag == "End" && currentPlatformCollider != hit.collider) {
+
+            LevelManager.instance.ReturnToMenu();
         }
     }
 
@@ -325,7 +329,8 @@ public class Player : PlatformUser {
 
         if (currentPlatformCollider != null) {
 
-            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole";
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole"
+                || hit.transform.tag == "End";
         }
 
         return success;
