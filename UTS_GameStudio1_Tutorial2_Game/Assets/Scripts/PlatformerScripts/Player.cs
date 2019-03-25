@@ -128,7 +128,11 @@ public class Player : PlatformUser {
 
             if (SpacePressed()) {
 
-                controller.Jump(ref input);
+                if (controller.Collisions.isBelow) {
+                    controller.Jump(ref input);
+                    SoundManager.instance.PlaySingle(jumpSound);
+                }
+                
             }
 
             if (controller.Collisions.isBelow && input.x != 0) {
@@ -236,6 +240,7 @@ public class Player : PlatformUser {
     }
 
     public void OnDeath() {
+
         SoundManager.instance.PlaySingle(dieSound);
         SoundManager.instance.StopSound();
 
@@ -244,10 +249,12 @@ public class Player : PlatformUser {
         if (LevelManager.instance.Lives <= 0) {
 
             StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.ReturnToMenu));
+            SoundManager.instance.PlaySingle(gameOverSound);
+
         } else {
 
             StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.RestartLevel));
-            
+            SoundManager.instance.PlaySingle(dieSound);
         }
     }
 
@@ -308,6 +315,7 @@ public class Player : PlatformUser {
         } else if (hit.transform.tag == "FlagPole" && currentPlatformCollider != hit.collider) {
 
             LevelManager.instance.PlayEndAnimation();
+            SoundManager.instance.PlayLoop(stageClearSound);
         }
     }
 

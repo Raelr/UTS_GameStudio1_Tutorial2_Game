@@ -51,12 +51,8 @@ public class LevelManager : MonoBehaviour
     }
 
     private IEnumerator DisplayLivesScreen() {
-        //Set delay on Lives Screen
-        Time.timeScale = 0f;
-        float pauseEndTime = Time.realtimeSinceStartup + (float)LivesScreenSecondsDelay;
-        while (Time.realtimeSinceStartup < pauseEndTime) {
-            yield return 0;
-        }
+
+        yield return new WaitForSeconds(2f);
 
         Color c = _livesBackground.color;
         c.a = 0;
@@ -96,7 +92,6 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("Lives", Lives);
 
         player.OnDeath();
-
     }
 
     public void SetPlayerProjectile(FireProjectile projectile) {
@@ -107,12 +102,6 @@ public class LevelManager : MonoBehaviour
     public void PlayEndAnimation() {
 
         flag.InitEndAnimation();
-    }
-
-    private void GameOver()
-    {
-        SoundManager.instance.PlaySingle(gameOverSound);
-        //TO:DO - Game Over code here
     }
 
     public void pickUpCoin()
