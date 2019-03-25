@@ -32,6 +32,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     AudioClip backgroundMusic, gameOverSound;
 
+    bool stopTime;
+
     public int Lives { get; set; }
 
     private void Start()
@@ -62,6 +64,8 @@ public class LevelManager : MonoBehaviour
         _livesUI.color = c;
         Time.timeScale = 1f;
 
+        stopTime = false;
+
         SoundManager.instance.PlayLoop(backgroundMusic);
     }
 
@@ -77,11 +81,13 @@ public class LevelManager : MonoBehaviour
         ScoreText.text = "MARIO\n" + _score.ToString("000000");
         CoinsText.text = "x " + _coins.ToString("00");
         TimeText.text = "TIME\n" + _time.ToString("000");
-        _time -= Time.deltaTime * (float)TimeReductionRate;
-        if ((int)_time == 0)
-        {
-            TimeReductionRate = 0;
-            OnPlayerKilled();
+
+        if (!stopTime) {
+            _time -= Time.deltaTime * (float)TimeReductionRate;
+            if ((int)_time == 0) {
+                TimeReductionRate = 0;
+                OnPlayerKilled();
+            }
         }
     }
 
@@ -107,10 +113,15 @@ public class LevelManager : MonoBehaviour
     public void pickUpCoin()
     {
         _coins++;
-        _score += 200;
+        ImproveScore(200);
     }
 
-    public IEnumerator PlayAnimation(Animator animator, string animationName, string conditionName, bool value, Action callBack = null) {
+    public void ImproveScore(int amount) {
+
+        _score += amount;
+    }
+
+    public IEnumerator PlayAnimation(Animator animator, string animationName, string conditionName, bool value, float time, Action callBack = null) {
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName.ToString())) {
 
@@ -118,7 +129,7 @@ public class LevelManager : MonoBehaviour
 
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
 
-            yield return new WaitForSeconds(animationTime * 5);
+            yield return new WaitForSeconds(animationTime * time);
 
             animator.SetBool(conditionName.ToString(), !value);
 
@@ -141,5 +152,11 @@ public class LevelManager : MonoBehaviour
     public void ReturnToMenu() {
 
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void GetPointsFromTime() {
+
+        ImproveScore(Mathf.RoundToInt(_time * 50));
+        stopTime = true;
     }
 }

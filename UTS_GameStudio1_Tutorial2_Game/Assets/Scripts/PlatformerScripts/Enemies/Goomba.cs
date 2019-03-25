@@ -40,6 +40,8 @@ public class Goomba : Enemy
 
         Instantiate(corpse, spawnPosition, Quaternion.identity);
 
+        LevelManager.instance.ImproveScore(100);
+
         this.gameObject.SetActive(false);
     }
 

@@ -248,12 +248,12 @@ public class Player : PlatformUser {
 
         if (LevelManager.instance.Lives <= 0) {
 
-            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.ReturnToMenu));
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, 8, LevelManager.instance.ReturnToMenu));
             SoundManager.instance.PlaySingle(gameOverSound);
 
         } else {
 
-            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.RestartLevel));
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, 10, LevelManager.instance.RestartLevel));
             SoundManager.instance.PlaySingle(dieSound);
         }
     }

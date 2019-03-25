@@ -7,9 +7,12 @@ public class Trigger : MonoBehaviour
     [SerializeField]
     Enemy[] enemies;
 
+    bool triggered;
+
     private void Start() {
 
         DisableMove();
+        triggered = false;
     }
 
     void DisableMove() {
@@ -24,10 +27,14 @@ public class Trigger : MonoBehaviour
 
     public void OnPlayerEnter() {
 
-        for (int i = 0; i < enemies.Length; i++) {
-            enemies[i].gameObject.SetActive(true);
-            enemies[i].CanMove = true;
-            
+        if (!triggered) {
+            for (int i = 0; i < enemies.Length; i++) {
+                enemies[i].gameObject.SetActive(true);
+                enemies[i].CanMove = true;
+
+            }
+
+            triggered = true;
         }
     }
 
