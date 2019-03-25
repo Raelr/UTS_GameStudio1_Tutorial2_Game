@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Coin.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Controller2D.cs" />
