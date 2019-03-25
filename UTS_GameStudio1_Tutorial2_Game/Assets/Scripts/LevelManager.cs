@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
-
     [Header("Player reference")]
     [SerializeField]
     Player player;
@@ -35,6 +34,11 @@ public class LevelManager : MonoBehaviour
         {
             GameOver();           
         }
+    }
+
+    public void SetPlayerProjectile(FireProjectile projectile) {
+
+        player.Projectile = projectile;
     }
 
     private void GameOver()

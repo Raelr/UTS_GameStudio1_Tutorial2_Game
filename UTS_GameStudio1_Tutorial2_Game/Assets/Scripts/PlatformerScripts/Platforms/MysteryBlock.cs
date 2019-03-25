@@ -60,7 +60,7 @@ public class MysteryBlock : Platform
 
                     yield return new WaitForSeconds(animationTime / 2);
 
-                    Instantiate(powerUp, transform.position, Quaternion.identity);
+                    Instantiate(powerUp, transform.position + spawnOffset, Quaternion.identity);
                 }
             }
 

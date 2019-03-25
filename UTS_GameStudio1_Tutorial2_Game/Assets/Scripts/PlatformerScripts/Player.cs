@@ -6,6 +6,8 @@ public class Player : PlatformUser {
 
     public bool IsAlive { get { return isAlive; } set { isAlive = value; } }
 
+    public FireProjectile Projectile { get { return projectile; } set { projectile = value; } }
+
     [Header("Player Controller")]
     [SerializeField]
     Controller2D controller;
@@ -23,6 +25,12 @@ public class Player : PlatformUser {
     SpriteRenderer renderer;
 
     Vector3 facingDirection;
+
+    [SerializeField]
+    Vector3 projectileSpawnOffset;
+
+    [SerializeField, ReadOnly]
+    FireProjectile projectile;
 
     // Delegate for anything which needs to know whether the player is moving
     public delegate void PlayerMovedHandler();
@@ -57,7 +65,13 @@ public class Player : PlatformUser {
     void Update() {
 
         if (isAlive) {
+
             MoveByInput();
+
+            if (Input.GetKeyDown("f")) {
+
+                SpawnProjectile();
+            }
         }
     }
 
@@ -127,20 +141,27 @@ public class Player : PlatformUser {
 
         float xValue = Mathf.RoundToInt(input.x);
 
-        facingDirection = new Vector3(xValue, 0, 0);
+        Vector3 direction = new Vector3(xValue, 0, 0);
 
-        if (Utilities.VectorEquals(facingDirection, Vector3.right)) {
+        if (direction != Vector3.zero) {
 
-            if (renderer.transform.rotation.y != 0) {
-                renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 0, renderer.transform.rotation.z);
+            if (Utilities.VectorEquals(facingDirection, Vector3.right)) {
+
+                if (renderer.transform.rotation.y != 0) {
+                    renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 0, renderer.transform.rotation.z);
+                    //Debug.Log(renderer.transform.rotation.y);
+                }
+
+            } else if (Utilities.VectorEquals(facingDirection, -Vector3.right)) {
+
+                if (renderer.transform.rotation.y != 180) {
+                    renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 180, renderer.transform.rotation.z);
+                    //Debug.Log(renderer.transform.rotation.y);
+                }
             }
-
-        } else if (Utilities.VectorEquals(facingDirection, -Vector3.right)) {
-
-            if (renderer.transform.rotation.y != 180) {
-                renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 180, renderer.transform.rotation.z);
-            }
+            facingDirection = direction;
         }
+        
     }
 
     /// <summary>
@@ -159,15 +180,23 @@ public class Player : PlatformUser {
     }
 
     bool IsStill() {
+
         return input.x == 0 && input.y == 0;
     }
 
+    void SpawnProjectile() {
+
+        if (status == 3 && projectile != null) {
+
+            FireProjectile projectile = Instantiate(this.projectile, transform.position + facingDirection, Quaternion.identity);
+
+            projectile.Direction = facingDirection;
+        }
+    }
 
     public void GetPowerUp(PowerUp.Abilities ability) {
         switch (ability) {
             case PowerUp.Abilities.Mashroom:
-                transform.position += new Vector3(0, GetComponent<Collider2D>().bounds.size.y / 2, 0);
-                transform.localScale *= 2;
                 status = 2;
                 break;
             case PowerUp.Abilities.Fire:
