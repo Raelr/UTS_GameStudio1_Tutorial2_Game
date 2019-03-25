@@ -19,6 +19,10 @@ public class MysteryBlock : Platform
     [SerializeField]
     Vector3 spawnOffset;
 
+    //SFX
+    [SerializeField]
+    AudioClip bumpSound, breakBlockSound;
+
     private void Awake() {
 
         renderer = GetComponentInChildren<SpriteRenderer>();
@@ -48,6 +52,7 @@ public class MysteryBlock : Platform
     IEnumerator PlayAnimation() {
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Block_Hit")) {
+            SoundManager.instance.PlaySingle(bumpSound);
 
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
 

@@ -154,6 +154,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
   animator: {fileID: 0}
+  projectileSpawnOffset: {x: 0, y: 0, z: 0}
+  projectile: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: f04c335e70171174eb32523a296d1895, type: 3}
+  gameOverSound: {fileID: 8300000, guid: 13e691d704ad8a64596dcec6a08d6ae4, type: 3}
+  stageClearSound: {fileID: 8300000, guid: b3a3581b56503e64487b9140757b89a4, type: 3}
+  starSound: {fileID: 8300000, guid: 3a7964355754dfa4ea658de08ddbbe80, type: 3}
+  extraLifeSound: {fileID: 8300000, guid: 51b1bf0d34ab80b4193e157aca880de7, type: 3}
+  breakBlockSound: {fileID: 8300000, guid: 539c82f2994f90e49b66864aaeb6d0f7, type: 3}
+  bumpSound: {fileID: 8300000, guid: da9dd0f618a8e7f47b12fef9fcb01742, type: 3}
+  fireballSound: {fileID: 8300000, guid: 3b260f0e86adf694bbf508d7a3998dfa, type: 3}
+  flagpoleSound: {fileID: 8300000, guid: 0fadc9e5234a7c345b368fe0b9ad728c, type: 3}
+  kickSound: {fileID: 8300000, guid: b2d948fa4f9eeff4ebc0d01a6554fe68, type: 3}
+  pipeSound: {fileID: 8300000, guid: f097f422d7ba9c248ab100ce79c5fb9d, type: 3}
+  mushroomSound: {fileID: 8300000, guid: ce7dbdcf23021b7469779ee08d72ef43, type: 3}
+  stompSound: {fileID: 8300000, guid: 5bb41cc4d787a4a4aa6d9898d5cc6dc7, type: 3}
+  dieSound: {fileID: 8300000, guid: 3c62a83fd4ceebb499f147cb89b6b315, type: 3}
 --- !u!114 &132503207860476587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +191,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1966592
   moveSpeed: 8
-  jumpHeight: 4.95
+  jumpHeight: 5.2
   timeToJumpApex: 0.4
   accelerationTimeAirborn: 0.2
   accelerationTimeGrounded: 0.06

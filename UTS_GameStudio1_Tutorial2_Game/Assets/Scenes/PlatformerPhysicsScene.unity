@@ -409,6 +409,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &169369546
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -651,6 +653,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &244369577
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -879,6 +883,9 @@ GameObject:
   m_Component:
   - component: {fileID: 270684806}
   - component: {fileID: 270684805}
+  - component: {fileID: 270684807}
+  - component: {fileID: 270684808}
+  - component: {fileID: 270684809}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -904,6 +911,8 @@ MonoBehaviour:
   TimeText: {fileID: 2009880971}
   LivesScreenSecondsDelay: 3
   player: {fileID: 448747063}
+  backgroundMusic: {fileID: 8300000, guid: 398cc4e4e856b6642b3485c18fd7cf44, type: 3}
+  gameOverSound: {fileID: 8300000, guid: 13e691d704ad8a64596dcec6a08d6ae4, type: 3}
 --- !u!4 &270684806
 Transform:
   m_ObjectHideFlags: 0
@@ -918,6 +927,212 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &270684807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270684804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebbd6e6c4fbf9e48abeb44ed7da175e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  efxSource: {fileID: 270684808}
+  musicSource: {fileID: 270684809}
+--- !u!82 &270684808
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270684804}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 52
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &270684809
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270684804}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &278766206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1388,6 +1603,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &416025319
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1794,6 +2011,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!61 &518698512
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5065,6 +5284,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &1061988119
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5999,6 +6220,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &1196938538
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7387,6 +7610,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &1495507053
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7615,6 +7840,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!61 &1544134330
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8104,35 +8331,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1994485917, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994485917, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994485917, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994485917, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994485917, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994485917, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994485918, guid: ae99e18c3544330408575a3530677e87, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 46c9cd1cab95c994f9aa7b81f57b5a01,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae99e18c3544330408575a3530677e87, type: 3}
 --- !u!1001 &1572711486
@@ -8289,6 +8487,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &1577059950
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9389,6 +9589,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &1745075736
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10872,6 +11074,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   platformType: 0
+  bumpSound: {fileID: 0}
+  breakBlockSound: {fileID: 0}
 --- !u!23 &2032960732
 MeshRenderer:
   m_ObjectHideFlags: 0

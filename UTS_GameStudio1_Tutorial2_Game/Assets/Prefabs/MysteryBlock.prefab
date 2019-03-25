@@ -171,6 +171,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8573859860718943883}
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   platformType: 0
   defaultSprite: {fileID: 21300000, guid: 3e4c06ee38049ef42aec2fa1c0b838ca, type: 3}
   hitSprite: {fileID: 21300000, guid: 5347ea258bf51524dad08197ad626913, type: 3}
+  powerUp: {fileID: 0}
+  spawnOffset: {x: 0, y: 0, z: 0}
+  bumpSound: {fileID: 8300000, guid: da9dd0f618a8e7f47b12fef9fcb01742, type: 3}
+  breakBlockSound: {fileID: 8300000, guid: 539c82f2994f90e49b66864aaeb6d0f7, type: 3}

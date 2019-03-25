@@ -10,7 +10,12 @@ public class FireProjectile : PlatformUser {
 
     Controller2D controller;
 
+    //SFX
+    [SerializeField]
+    AudioClip fireProjectileSound;
+
     void Start() {
+        SoundManager.instance.PlaySingle(fireProjectileSound);
 
         controller = GetComponent<Controller2D>();
 

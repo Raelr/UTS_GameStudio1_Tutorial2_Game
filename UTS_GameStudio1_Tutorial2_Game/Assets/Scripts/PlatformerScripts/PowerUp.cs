@@ -9,6 +9,10 @@ public abstract class PowerUp : PlatformUser
     [SerializeField]
     protected Animator animator;
 
+    //SFX
+    [SerializeField]
+    AudioClip mushroomSpawnSound;
+
     protected bool isInitialising;
 
     public enum Abilities {Mashroom, Fire, Invincible}
@@ -24,6 +28,7 @@ public abstract class PowerUp : PlatformUser
     IEnumerator PlayAnimation() {
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MushroomRisingAnimation")) {
+            SoundManager.instance.PlaySingle(mushroomSpawnSound);
 
             isInitialising = true;
 

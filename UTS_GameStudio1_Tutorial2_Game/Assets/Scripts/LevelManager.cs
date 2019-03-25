@@ -24,6 +24,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     Player player;
 
+    //SFX
+    [SerializeField]
+    AudioClip backgroundMusic, gameOverSound;
+
     public int Lives { get; set; }
 
     private void Start()
@@ -55,6 +59,8 @@ public class LevelManager : MonoBehaviour
         _livesImgUI.color = c;
         _livesUI.color = c;
         Time.timeScale = 1f;
+
+        SoundManager.instance.PlayLoop(backgroundMusic);
     }
 
     private void Awake() {
@@ -95,6 +101,7 @@ public class LevelManager : MonoBehaviour
 
     private void GameOver()
     {
+        SoundManager.instance.PlaySingle(gameOverSound);
         //TO:DO - Game Over code here
     }
 
