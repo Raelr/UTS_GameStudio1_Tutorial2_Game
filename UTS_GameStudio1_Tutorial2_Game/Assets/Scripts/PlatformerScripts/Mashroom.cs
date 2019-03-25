@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Mashroom : PowerUp
 {
-    [SerializeField]
-    Controller2D controller;
 
     Vector3 direction;
 
@@ -16,6 +14,8 @@ public class Mashroom : PowerUp
         InitialiseAnimation();
         direction = Vector3.right;
         ability = Abilities.Mashroom;
+        controller.onCollision += CheckCurrentCollider;
+
     }
 
     private void Update() {
@@ -39,6 +39,24 @@ public class Mashroom : PowerUp
         controller.ApplyGravity(ref direction);
 
         controller.ApplyMovement(direction);
+    }
+
+    protected override void CheckForTrigger(RaycastHit2D hit) {
+        throw new System.NotImplementedException();
+    }
+
+    protected override bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
+
+        bool success = false;
+
+        return success;
+    }
+
+    public override void OnPickup() {
+
+        Debug.Log("Picked up Large Mushroom");
+
+        Destroy(gameObject);
     }
 }
 

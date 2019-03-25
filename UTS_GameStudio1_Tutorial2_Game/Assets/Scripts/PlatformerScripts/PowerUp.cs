@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class PowerUp : MonoBehaviour
+public abstract class PowerUp : PlatformUser
 {
     [SerializeField]
     protected Animator animator;
@@ -12,15 +14,7 @@ public abstract class PowerUp : MonoBehaviour
     public enum Abilities {Mashroom, Fire, Invincible}
     protected Abilities ability;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    protected Controller2D controller;
 
     protected void InitialiseAnimation() {
 
@@ -49,12 +43,7 @@ public abstract class PowerUp : MonoBehaviour
         }
     }
 
-    public void OnPickup() {
-
-        Debug.Log("Picked Up!");
-        Destroy(this.gameObject);
-
-    }
+    public abstract void OnPickup();
 
     public Abilities GetAbility(){
         return ability;

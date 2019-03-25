@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PowerupTest : PowerUp
 {
-    [SerializeField]
-    Controller2D controller;
 
     Vector3 direction;
 
@@ -15,6 +13,8 @@ public class PowerupTest : PowerUp
         controller = GetComponent<Controller2D>();
         InitialiseAnimation();
         direction = Vector3.right;
+
+        controller.onCollision += CheckCurrentCollider;
     }
 
     private void Update() {
@@ -38,6 +38,21 @@ public class PowerupTest : PowerUp
         controller.ApplyGravity(ref direction);
 
         controller.ApplyMovement(direction);
+    }
+
+    protected override void CheckForTrigger(RaycastHit2D hit) {
+        throw new System.NotImplementedException();
+    }
+
+    protected override bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnPickup() {
+
+        Debug.Log("Picked up test");
+
+        Destroy(gameObject);
     }
 }
 
