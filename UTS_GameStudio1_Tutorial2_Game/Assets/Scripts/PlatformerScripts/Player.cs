@@ -8,6 +8,8 @@ public class Player : PlatformUser {
 
     public FireProjectile Projectile { get { return projectile; } set { projectile = value; } }
 
+    public bool CanMove { get { return canMove; } set { canMove = value; } }
+
     [Header("Player Controller")]
     [SerializeField]
     Controller2D controller;
@@ -18,6 +20,8 @@ public class Player : PlatformUser {
     Animator animator;
 
     bool isAlive;
+
+    bool canMove;
 
     //status store the stage of powerup, 1 is normal, 2 is mashroomed, 3 is fire mode, 4 is invincible.
     private int status = 1;
@@ -40,6 +44,8 @@ public class Player : PlatformUser {
     void Start() {
 
         isAlive = true;
+
+        canMove = true;
 
         controller = GetComponent<Controller2D>();
 
@@ -66,11 +72,14 @@ public class Player : PlatformUser {
 
         if (isAlive) {
 
-            MoveByInput();
+            if (canMove) {
 
-            if (Input.GetKeyDown("f")) {
+                MoveByInput();
 
-                SpawnProjectile();
+                if (Input.GetKeyDown("f")) {
+
+                    SpawnProjectile();
+                }
             }
         }
     }
@@ -161,7 +170,7 @@ public class Player : PlatformUser {
             }
             facingDirection = direction;
         }
-        
+
     }
 
     /// <summary>
@@ -213,7 +222,15 @@ public class Player : PlatformUser {
     public void OnDeath() {
 
         isAlive = false;
-        animator.SetBool("Alive", false);
+
+        if (LevelManager.instance.Lives <= 0) {
+
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.ReturnToMenu));
+        } else {
+
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.RestartLevel));
+            
+        }
     }
 
     public void CheckEnemyHit(RaycastHit2D hit) {
@@ -268,6 +285,9 @@ public class Player : PlatformUser {
             trigger.OnTrigger(controller);
 
             currentPlatformCollider = hit.collider;
+        } else if (hit.transform.tag == "FlagPole" && currentPlatformCollider != hit.collider) {
+
+            LevelManager.instance.PlayEndAnimation();
         }
     }
 
@@ -277,9 +297,19 @@ public class Player : PlatformUser {
 
         if (currentPlatformCollider != null) {
 
-            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint";
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole";
         }
 
         return success;
+    }
+
+    public void ChangeSprite(Sprite sprite) {
+
+
+        animator.SetBool("isJumping", false);
+
+        animator.SetBool("isWalking", false);
+
+        renderer.sprite = sprite;
     }
 }

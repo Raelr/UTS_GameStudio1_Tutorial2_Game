@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 public class LevelManager : MonoBehaviour
 {
@@ -24,12 +26,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     Player player;
 
+    [SerializeField]
+    FlagPole flag;
+
     public int Lives { get; set; }
 
     private void Start()
     {
         //TO:DO - Add Black screen showing Level and Lives
-        Lives = 3; //Start with 3 Lives
+
+        Lives = PlayerPrefs.GetInt("Lives");
+
         _livesBackground = GameObject.Find("Panel").GetComponent<Image>();
         _worldLivesUIText = GameObject.Find("WorldUI_LivesScreen").GetComponent<Text>();
         _livesImgUI = GameObject.Find("LivesImgUI").GetComponent<Image>();
@@ -79,18 +86,22 @@ public class LevelManager : MonoBehaviour
 
     public void OnPlayerKilled() {
 
-        player.OnDeath();
-        Lives--; //Lose a Life
+        Lives--;
 
-        if (Lives < 0) //Mario dies when he has 0 lives LEFT, not when he reaches 0 lives.
-        {
-            GameOver();           
-        }
+        PlayerPrefs.SetInt("Lives", Lives);
+
+        player.OnDeath();
+
     }
 
     public void SetPlayerProjectile(FireProjectile projectile) {
 
         player.Projectile = projectile;
+    }
+
+    public void PlayEndAnimation() {
+
+        flag.InitEndAnimation();
     }
 
     private void GameOver()
@@ -102,5 +113,38 @@ public class LevelManager : MonoBehaviour
     {
         _coins++;
         _score += 200;
+    }
+
+    public IEnumerator PlayAnimation(Animator animator, string animationName, string conditionName, bool value, Action callBack = null) {
+
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName.ToString())) {
+
+            animator.SetBool(conditionName.ToString(), value);
+
+            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
+
+            yield return new WaitForSeconds(animationTime * 5);
+
+            animator.SetBool(conditionName.ToString(), !value);
+
+            if (callBack != null) {
+
+                callBack.Invoke();
+            }
+
+        } else {
+
+            yield return null;
+        }
+    }
+
+    public void RestartLevel() {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ReturnToMenu() {
+
+        SceneManager.LoadScene("MainMenu");
     }
 }
