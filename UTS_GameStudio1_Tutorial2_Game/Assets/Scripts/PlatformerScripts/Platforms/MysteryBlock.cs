@@ -23,6 +23,12 @@ public class MysteryBlock : Platform
     [SerializeField]
     AudioClip bumpSound, breakBlockSound;
 
+    [SerializeField]
+    CoinSpawn coin;
+
+    [SerializeField]
+    int coinCount;
+
     private void Awake() {
 
         renderer = GetComponentInChildren<SpriteRenderer>();
@@ -45,7 +51,18 @@ public class MysteryBlock : Platform
         if (animator != null) {
 
             StartCoroutine(PlayAnimation());
+        }
 
+        SpawnCoin();
+    }
+
+    public void SpawnCoin() {
+
+        if (coin != null) {
+            if (coinCount > 0) {
+                coinCount--;
+                Instantiate(coin, transform.position, Quaternion.identity);
+            }
         }
     }
 

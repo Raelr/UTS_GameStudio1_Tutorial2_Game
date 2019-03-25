@@ -26,6 +26,8 @@ public class FlagPole : MonoBehaviour
     public void InitEndAnimation() {
 
         StartCoroutine(PlayEndAnimation());
+
+        LevelManager.instance.GetPointsFromTime();
     }
     
     IEnumerator PlayEndAnimation() {
