@@ -222,7 +222,15 @@ public class Player : PlatformUser {
     public void OnDeath() {
 
         isAlive = false;
-        animator.SetBool("Alive", false);
+
+        if (LevelManager.instance.Lives <= 0) {
+
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.ReturnToMenu));
+        } else {
+
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, LevelManager.instance.RestartLevel));
+            
+        }
     }
 
     public void CheckEnemyHit(RaycastHit2D hit) {
