@@ -27,11 +27,32 @@ public class CameraFollow : MonoBehaviour {
     [SerializeField]
     float cameraPanSpeed;
 
+    [SerializeField]
+    BoxCollider2D bounds;
+
+    Vector3 minBounds;
+
+    Vector3 maxBounds;
+
+    Camera mainCamera;
+
+    float halfHeight;
+
+    float halfWidth;
+
     private void Awake() {
 
         if (cameraFocus != null) {
             transform.position = cameraFocus.position + cameraOffset;
         }
+
+        mainCamera = Camera.main;
+
+        minBounds = bounds.bounds.min;
+        maxBounds = bounds.bounds.max;
+
+        halfHeight = mainCamera.orthographicSize;
+        halfWidth = halfHeight * Screen.width / Screen.height;
 
         FollowPlayer();
     }
@@ -53,6 +74,11 @@ public class CameraFollow : MonoBehaviour {
             Vector3 smoothMove = Vector3.SmoothDamp(transform.position, cameraPosition, ref moveVelocity, smoothCameraTiming * Time.deltaTime);
 
             transform.position = smoothMove;
+
+            float clampedX = Mathf.Clamp(transform.position.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
+            float clampedY = Mathf.Clamp(transform.position.y, minBounds.y + halfHeight, maxBounds.y - halfHeight);
+
+            transform.position = new Vector3(clampedX, clampedY, transform.position.z);
 
             oldPosition = cameraFocus.position;
         }
