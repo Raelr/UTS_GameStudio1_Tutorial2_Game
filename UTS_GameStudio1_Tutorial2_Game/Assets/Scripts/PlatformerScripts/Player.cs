@@ -285,9 +285,13 @@ public class Player : PlatformUser {
             trigger.OnTrigger(controller);
 
             currentPlatformCollider = hit.collider;
+
         } else if (hit.transform.tag == "FlagPole" && currentPlatformCollider != hit.collider) {
 
             LevelManager.instance.PlayEndAnimation();
+        } else if (hit.transform.tag == "End" && currentPlatformCollider != hit.collider) {
+
+            LevelManager.instance.ReturnToMenu();
         }
     }
 
@@ -297,7 +301,8 @@ public class Player : PlatformUser {
 
         if (currentPlatformCollider != null) {
 
-            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole";
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole"
+                || hit.transform.tag == "End";
         }
 
         return success;
