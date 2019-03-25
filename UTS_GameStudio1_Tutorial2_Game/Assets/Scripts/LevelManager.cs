@@ -10,6 +10,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     Player player;
 
+    [SerializeField]
+    FlagPole flag;
+
     public int Lives { get; set; }
 
     private void Start()
@@ -39,6 +42,11 @@ public class LevelManager : MonoBehaviour
     public void SetPlayerProjectile(FireProjectile projectile) {
 
         player.Projectile = projectile;
+    }
+
+    public void PlayEndAnimation() {
+
+        flag.InitEndAnimation();
     }
 
     private void GameOver()

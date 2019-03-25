@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\PlatformerScripts\FallTrigger.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\FireFlower.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\FireProjectile.cs" />
+    <Compile Include="Assets\Scripts\PlatformerScripts\FlagPole.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\InvincibleStar.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Mashroom.cs" />
     <Compile Include="Assets\Scripts\PlatformerScripts\Platforms\ItemSpawn.cs" />

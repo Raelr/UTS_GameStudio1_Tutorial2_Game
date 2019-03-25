@@ -10,15 +10,16 @@ TagManager:
   - VulnerablePoint
   - Trigger
   - FallPoint
+  - FlagPole
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  -
+  - 
   - Water
   - UI
-  -
-  -
+  - 
+  - 
   - Player
   - Obstacle
   - Platform
@@ -32,17 +33,17 @@ TagManager:
   - Enemy
   - VulnerablePoint
   - Trigger
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
+  - FlagPole
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Background
     uniqueID: 3845139453
