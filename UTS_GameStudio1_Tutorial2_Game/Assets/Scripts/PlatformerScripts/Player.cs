@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : PlatformUser {
 
     public bool IsAlive { get { return isAlive; } set { isAlive = value; } }
     public Status CurrentStatus { get { return status; }}
+
+    public FireProjectile Projectile { get { return projectile; } set { projectile = value; } }
+
+    public bool CanMove { get { return canMove; } set { canMove = value; } }
 
     [Header("Player Controller")]
     [SerializeField]
@@ -19,6 +23,7 @@ public class Player : MonoBehaviour {
 
     bool isAlive;
 
+<<<<<<< HEAD
     //status store the stage of powerup, 1 is normal, 2 is mashroomed, 4 is fire mode, 8 is invincible, 
     //16 is untouchable, which happen during status changing time, normally last for few seconds.
     //Flags means status value could be used as bit values, so that multiple values can be true at once.
@@ -26,19 +31,41 @@ public class Player : MonoBehaviour {
     [Flags] public enum Status {Normal = 1, SizeUp = 2, OnFire = 4, OnInvincible = 8, OnUnTouchable = 16}
     private float timer;
     private Status status = Status.Normal;
+=======
+    bool canMove;
+
+    //status store the stage of powerup, 1 is normal, 2 is mashroomed, 3 is fire mode, 4 is invincible.
+    private int status = 1;
+>>>>>>> 68b567973ef4f0b60a0d12b0669e03d167461661
 
     SpriteRenderer renderer;
 
     Vector3 facingDirection;
+
+    [SerializeField]
+    Vector3 projectileSpawnOffset;
+
+    [SerializeField, ReadOnly]
+    FireProjectile projectile;
 
     // Delegate for anything which needs to know whether the player is moving
     public delegate void PlayerMovedHandler();
 
     public event PlayerMovedHandler playerMoved;
 
+    //SFX
+    [SerializeField]
+    AudioClip jumpSound, gameOverSound, stageClearSound, starSound, extraLifeSound, breakBlockSound, bumpSound,
+        fireballSound, flagpoleSound, kickSound, pipeSound, mushroomSound, stompSound,
+        dieSound;
+
+
+
     void Start() {
 
         isAlive = true;
+
+        canMove = true;
 
         controller = GetComponent<Controller2D>();
 
@@ -47,13 +74,34 @@ public class Player : MonoBehaviour {
         renderer = GetComponentInChildren<SpriteRenderer>();
 
         facingDirection = Vector2.right;
+
+        controller.onCollision += CheckEnemyHit;
+
+        controller.onCollision += CheckForPowerUp;
+
+        controller.onCollision += CheckForTrigger;
+
+        controller.onCollision += CheckCurrentCollider;
+
+        controller.directionConditions += TriggerPlatformMove;
+
+        controller.collisionIgnoreConditions += IgnoreCollisions;
     }
 
     void Update() {
 
         Tick();
         if (isAlive) {
-            MoveByInput();
+
+            if (canMove) {
+
+                MoveByInput();
+
+                if (Input.GetKeyDown("f")) {
+
+                    SpawnProjectile();
+                }
+            }
         }
     }
 
@@ -107,7 +155,11 @@ public class Player : MonoBehaviour {
 
             if (SpacePressed()) {
 
-                controller.Jump(ref input);
+                if (controller.Collisions.isBelow) {
+                    controller.Jump(ref input);
+                    SoundManager.instance.PlaySingle(jumpSound);
+                }
+
             }
 
             if (controller.Collisions.isBelow && input.x != 0) {
@@ -122,9 +174,12 @@ public class Player : MonoBehaviour {
         if (!controller.Collisions.isBelow) {
 
             isJumping = true;
+
         }
 
         animator.SetBool("isJumping", isJumping);
+
+
 
         // If anything is listening for player movement then invoke the delegate.
         if (playerMoved != null) {
@@ -137,20 +192,27 @@ public class Player : MonoBehaviour {
 
         float xValue = Mathf.RoundToInt(input.x);
 
-        facingDirection = new Vector3(xValue, 0, 0);
+        Vector3 direction = new Vector3(xValue, 0, 0);
 
-        if (Utilities.VectorEquals(facingDirection, Vector3.right)) {
+        if (direction != Vector3.zero) {
 
-            if (renderer.transform.rotation.y != 0) {
-                renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 0, renderer.transform.rotation.z);
+            if (Utilities.VectorEquals(facingDirection, Vector3.right)) {
+
+                if (renderer.transform.rotation.y != 0) {
+                    renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 0, renderer.transform.rotation.z);
+                    //Debug.Log(renderer.transform.rotation.y);
+                }
+
+            } else if (Utilities.VectorEquals(facingDirection, -Vector3.right)) {
+
+                if (renderer.transform.rotation.y != 180) {
+                    renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 180, renderer.transform.rotation.z);
+                    //Debug.Log(renderer.transform.rotation.y);
+                }
             }
-
-        } else if (Utilities.VectorEquals(facingDirection, -Vector3.right)) {
-
-            if (renderer.transform.rotation.y != 180) {
-                renderer.transform.rotation = Quaternion.Euler(renderer.transform.rotation.x, 180, renderer.transform.rotation.z);
-            }
+            facingDirection = direction;
         }
+
     }
 
     /// <summary>
@@ -169,9 +231,21 @@ public class Player : MonoBehaviour {
     }
 
     bool IsStill() {
+
         return input.x == 0 && input.y == 0;
     }
 
+    void SpawnProjectile() {
+
+        if (status == 3 && projectile != null) {
+
+            FireProjectile projectile = Instantiate(this.projectile, transform.position + facingDirection, Quaternion.identity);
+
+            SoundManager.instance.PlaySingle(fireballSound);
+
+            projectile.Direction = facingDirection;
+        }
+    }
 
     public void GetPowerUp(PowerUp.Abilities ability) {
         if (status == Status.Normal){
@@ -180,6 +254,7 @@ public class Player : MonoBehaviour {
 
         switch (ability) {
             case PowerUp.Abilities.Mashroom:
+<<<<<<< HEAD
                 break;
             case PowerUp.Abilities.Fire:
                 //Bit operation. Means the bit on Status.OnFire is set to 1;
@@ -187,6 +262,18 @@ public class Player : MonoBehaviour {
                 break;
             case PowerUp.Abilities.Invincible:
                 status |= Status.OnInvincible;
+=======
+                status = 2;
+                SoundManager.instance.PlaySingle(mushroomSound);
+                break;
+            case PowerUp.Abilities.Fire:
+                SoundManager.instance.PlaySingle(mushroomSound);
+                status = 3;
+                break;
+            case PowerUp.Abilities.Invincible:
+                SoundManager.instance.PlaySingle(mushroomSound);
+                status = 4;
+>>>>>>> 68b567973ef4f0b60a0d12b0669e03d167461661
                 break;
             default:
                 break;
@@ -195,7 +282,11 @@ public class Player : MonoBehaviour {
 
     public void OnDeath() {
 
+        SoundManager.instance.PlaySingle(dieSound);
+        SoundManager.instance.StopSound();
+
         isAlive = false;
+<<<<<<< HEAD
         animator.SetBool("Alive", false);
         Debug.Log("I'm dead");
     }
@@ -228,5 +319,106 @@ public class Player : MonoBehaviour {
         }else{
             OnDeath();
         }
+=======
+
+        if (LevelManager.instance.Lives <= 0) {
+
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, 8, LevelManager.instance.ReturnToMenu));
+            SoundManager.instance.PlaySingle(gameOverSound);
+
+        } else {
+
+            StartCoroutine(LevelManager.instance.PlayAnimation(animator, "MarioDeath", "Alive", false, 10, LevelManager.instance.RestartLevel));
+            SoundManager.instance.PlaySingle(dieSound);
+        }
+    }
+
+    public void CheckEnemyHit(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "VulnerablePoint") {
+            SoundManager.instance.PlaySingle(stompSound);
+
+            Enemy enemy = hit.transform.parent.GetComponent<Enemy>();
+
+            enemy.OnPlayerStomp();
+
+            controller.Bounce();
+
+        } else if (hit.transform.tag == "Enemy") {
+
+            LevelManager.instance.OnPlayerKilled();
+        }
+    }
+
+    void CheckForPowerUp(RaycastHit2D hit) {
+
+        if (hit.transform.tag.Equals("PowerUp")) {
+
+
+            PowerUp powerUp = hit.transform.GetComponent<PowerUp>();
+
+            powerUp.OnPickup();
+
+            GetPowerUp(powerUp.GetAbility());
+        }
+    }
+
+    void TriggerPlatformMove() {
+
+        if (controller.Collisions.isAbove) {
+            currentPlatform.OnPlayerHit();
+        }
+    }
+
+    protected override void CheckForTrigger(RaycastHit2D hit) {
+
+        if (hit.transform.tag == "Trigger" && currentPlatformCollider != hit.collider) {
+
+            Trigger trigger = hit.transform.GetComponent<Trigger>();
+
+            trigger.OnPlayerEnter();
+
+            currentPlatformCollider = hit.collider;
+
+        } else if (hit.transform.tag == "FallPoint" && currentPlatformCollider != hit.collider) {
+
+            FallTrigger trigger = hit.transform.GetComponent<FallTrigger>();
+
+            trigger.OnTrigger(controller);
+
+            currentPlatformCollider = hit.collider;
+
+        } else if (hit.transform.tag == "FlagPole" && currentPlatformCollider != hit.collider) {
+
+            LevelManager.instance.PlayEndAnimation();
+            SoundManager.instance.PlayLoop(stageClearSound);
+        } else if (hit.transform.tag == "End" && currentPlatformCollider != hit.collider) {
+
+            LevelManager.instance.ReturnToMenu();
+        }
+    }
+
+    protected override bool IgnoreCollisions(RaycastHit2D hit, float direction = 0) {
+
+        bool success = false;
+
+        if (currentPlatformCollider != null) {
+
+            success = hit.transform.tag == "PowerUp" || currentPlatform.AllowedToJumpThrough(direction) || controller.IsCrouching && currentPlatform.CanFallThrough() || hit.transform.tag == "Trigger" || hit.transform.tag == "Enemy" || hit.transform.tag == "VulnerablePoint" || hit.transform.tag == "FlagPole"
+                || hit.transform.tag == "End";
+        }
+
+        return success;
+    }
+
+    public void ChangeSprite(Sprite sprite) {
+
+
+        animator.SetBool("isJumping", false);
+
+        animator.SetBool("isWalking", false);
+
+        renderer.sprite = sprite;
+>>>>>>> 68b567973ef4f0b60a0d12b0669e03d167461661
     }
 }

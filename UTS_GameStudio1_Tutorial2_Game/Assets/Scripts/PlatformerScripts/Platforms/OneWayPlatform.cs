@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class OneWayPlatform : Platform {
 
-    public override bool AllowedToJumpThrough(float direction, bool isCheckingDirection) {
+    public override bool AllowedToJumpThrough(float direction) {
 
-        bool allowed = isCheckingDirection ? platformType == PlatformType.CanJumpThrough && direction == 1 : platformType == PlatformType.CanJumpThrough;
+        bool allowed = platformType == PlatformType.CanJumpThrough && direction == 1;
 
         return allowed;
     }

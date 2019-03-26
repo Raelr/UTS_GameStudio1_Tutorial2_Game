@@ -5,9 +5,6 @@ using UnityEngine;
 public class Goomba : Enemy
 {
     [SerializeField]
-    Sprite deathSprite;
-
-    [SerializeField]
     Goomba_Corpse corpse;
 
     [SerializeField]
@@ -17,7 +14,9 @@ public class Goomba : Enemy
     void Awake()
     {
         Init();
+
         direction = -Vector3.right;
+
         isAlive = true;
     }
 
@@ -28,6 +27,7 @@ public class Goomba : Enemy
 
             if (canMove) {
                 Move();
+                //UpdateFacingDirection(direction);
             }
         }
     }
@@ -40,6 +40,13 @@ public class Goomba : Enemy
 
         Instantiate(corpse, spawnPosition, Quaternion.identity);
 
-        Destroy(this.gameObject);
+        LevelManager.instance.ImproveScore(100);
+
+        this.gameObject.SetActive(false);
+    }
+
+    public override void OnHitByFireball() {
+
+        StartCoroutine(WaitForAnimation());
     }
 }

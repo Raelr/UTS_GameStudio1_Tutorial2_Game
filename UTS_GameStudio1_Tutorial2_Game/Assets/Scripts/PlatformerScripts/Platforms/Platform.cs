@@ -32,7 +32,7 @@ public abstract class Platform : MonoBehaviour {
     [SerializeField]
     protected PlatformType platformType;
 
-    public abstract bool AllowedToJumpThrough(float direction, bool isCheckingDirection = false);
+    public abstract bool AllowedToJumpThrough(float direction = 0);
 
     public abstract bool CanFallThrough();
 

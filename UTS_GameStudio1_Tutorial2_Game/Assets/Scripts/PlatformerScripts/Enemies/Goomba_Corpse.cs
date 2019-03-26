@@ -43,6 +43,6 @@ public class Goomba_Corpse : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 }

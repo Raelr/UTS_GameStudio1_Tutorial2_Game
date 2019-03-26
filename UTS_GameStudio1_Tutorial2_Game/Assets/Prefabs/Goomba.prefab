@@ -59,8 +59,9 @@ PolygonCollider2D:
     - - {x: 0.17250061, y: 0.6379857}
       - {x: -0.15487671, y: 0.6410246}
       - {x: -0.39710236, y: 0.40377235}
-      - {x: -0.5464783, y: 0.23329163}
-      - {x: 0.56591034, y: 0.22843266}
+      - {x: -0.5465317, y: 0.22996569}
+      - {x: -0.55075073, y: 0.06963205}
+      - {x: 0.5644913, y: 0.069042206}
       - {x: 0.562973, y: 0.23374891}
       - {x: 0.40924835, y: 0.39405394}
 --- !u!1 &4662650144206771013
@@ -89,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 4662650144206771013}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4662650144538899948}
   m_RootOrder: 0
@@ -188,12 +189,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 144e07412d1ec484da7e3df813d93ff2, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   controller: {fileID: 0}
   collider: {fileID: 134791097}
   animator: {fileID: 4662650144538899947}
-  deathSprite: {fileID: 21300004, guid: 4fd10c0b9c7b8ae489256e7c192ec8b0, type: 3}
+  renderer: {fileID: 4662650144206771011}
   corpse: {fileID: 7116270012658041131, guid: 8c59da7794f0fec438f95b27d7e0f516, type: 3}
   corpseOffset: {x: 0, y: -0.6, z: 0}
 --- !u!114 &4662650144538899949
@@ -206,8 +207,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f2e87b5f51b0374ebabd14baa760928, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   horizontalRayCount: 4
   verticalRayCount: 4
   horizontalRaySpacing: 0
@@ -239,7 +240,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -268,9 +269,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.56651306, y: 0.23115396}
-      - {x: -0.5462189, y: 0.23175955}
-      - {x: -0.5511246, y: 0.2334342}
+    - - {x: 0.5636673, y: 0.07034063}
+      - {x: -0.5462189, y: 0.066753864}
+      - {x: -0.64073944, y: 0.06985092}
       - {x: -0.64042664, y: 0.07103109}
       - {x: -0.6404114, y: -0.1778264}
       - {x: -0.54698944, y: -0.24957848}
@@ -280,5 +281,5 @@ PolygonCollider2D:
       - {x: 0.5877838, y: -0.6436796}
       - {x: 0.6370239, y: -0.17314053}
       - {x: 0.6358948, y: 0.06469488}
-      - {x: 0.56643677, y: 0.23674011}
-      - {x: 0.5652695, y: 0.22634792}
+      - {x: 0.5650177, y: 0.07023382}
+      - {x: 0.56811523, y: 0.069803715}

@@ -19,6 +19,16 @@ public class MysteryBlock : Platform
     [SerializeField]
     Vector3 spawnOffset;
 
+    //SFX
+    [SerializeField]
+    AudioClip bumpSound, breakBlockSound;
+
+    [SerializeField]
+    CoinSpawn coin;
+
+    [SerializeField]
+    int coinCount;
+
     private void Awake() {
 
         renderer = GetComponentInChildren<SpriteRenderer>();
@@ -26,7 +36,7 @@ public class MysteryBlock : Platform
         renderer.sprite = defaultSprite;
     }
 
-    public override bool AllowedToJumpThrough(float direction, bool isCheckingDIrection) {
+    public override bool AllowedToJumpThrough(float direction) {
 
         return platformType == PlatformType.Solid ? false : true;
     }
@@ -41,13 +51,25 @@ public class MysteryBlock : Platform
         if (animator != null) {
 
             StartCoroutine(PlayAnimation());
+        }
 
+        SpawnCoin();
+    }
+
+    public void SpawnCoin() {
+
+        if (coin != null) {
+            if (coinCount > 0) {
+                coinCount--;
+                Instantiate(coin, transform.position, Quaternion.identity);
+            }
         }
     }
 
     IEnumerator PlayAnimation() {
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Block_Hit")) {
+            SoundManager.instance.PlaySingle(bumpSound);
 
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
 
@@ -60,7 +82,7 @@ public class MysteryBlock : Platform
 
                     yield return new WaitForSeconds(animationTime / 2);
 
-                    Instantiate(powerUp, transform.position, Quaternion.identity);
+                    Instantiate(powerUp, transform.position + spawnOffset, Quaternion.identity);
                 }
             }
 

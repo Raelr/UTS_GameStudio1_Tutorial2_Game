@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 2078463852699006131}
   - component: {fileID: 2024443540454050214}
   - component: {fileID: 4445142497754784050}
-  - component: {fileID: 5612174143057424133}
   - component: {fileID: 8322487811357576584}
   m_Layer: 17
   m_Name: LargeMushroomPowerUp
@@ -173,21 +172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2024443540454050214}
-  controller: {fileID: 8322487811357576584}
---- !u!114 &5612174143057424133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7226471770367417111}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11fd02afacdfaae428e8afaf3e36a987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 2024443540454050214}
-  controller: {fileID: 8322487811357576584}
+  mushroomSpawnSound: {fileID: 8300000, guid: 020b33434fcc2684a989faaa661578aa, type: 3}
+  mushroomSound: {fileID: 8300000, guid: ce7dbdcf23021b7469779ee08d72ef43, type: 3}
 --- !u!114 &8322487811357576584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +197,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpHeight: 5
   timeToJumpApex: 0.4
-  accelerationTimeAirborn: 0.1
-  accelerationTimeGrounded: 0.1
+  accelerationTimeAirborn: 0
+  accelerationTimeGrounded: 0
   jumpVelocity: 0
   gravity: 0
   maxClimbAngle: 0
